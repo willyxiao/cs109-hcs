@@ -12,12 +12,12 @@ data = dict(enumerate(glob.glob(true_glob)))
 def mapfn(k, v):
   import mailbox
   import socket
-  #mbox = mailbox.mbox(v)
+  mbox = mailbox.mbox(v)
 
-  yield 0, 1#mbox.__len__()
+  yield 0, mbox.__len__()
 
 def reducefn(k, vs):
-  return k, sum(vs)
+  return sum(vs)
 
 s = mincemeat.Server()
 
@@ -29,6 +29,4 @@ results = s.run_server(password="hello")
 
 outfile = open('count.out', 'w')
 
-for k, v in results:
-  outfile.write(v)
-
+print results[0]
