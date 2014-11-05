@@ -16,9 +16,9 @@ class MrJob:
     self.start_time = time.time()
 
     if name is None:
-      self.name = "mrjob" + str(int(self.start_time)) + ".out"
+      self.name = "mrjob" + str(int(self.start_time))
     else:
-      self.name = name + str(int(self.start_time)) + ".out"
+      self.name = name + str(int(self.start_time))
 
     self.mapfn = mapfn
     self.reducefn = reducefn
@@ -53,7 +53,7 @@ class MrJob:
     client.close()
 
   def start_server(self):
-    logname = "mrjob" + str(int(self.start_time)) + ".log"
+    logname = self.name + ".log"
     logging.basicConfig(filename=logname,level=logging.DEBUG)
 
     s = mincemeat.Server()
@@ -61,5 +61,5 @@ class MrJob:
     s.mapfn = self.mapfn
     s.reducefn = self.reducefn
     result = s.run_server(password=self.password)
-    pickle.dump(result, self.name)
+    pickle.dump(result, self.name + ".out")
     return result
