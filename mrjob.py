@@ -42,9 +42,9 @@ class MrJob:
       return self.results
 
   def start_clients(self):
-    command = "dtach -n mincemeat.py -p hello 10.102.75.2 >> /tmp/xxx 2>&1"
+    command = "dtach -n /tmp/" + self.name + " /usr/local/bin/mincemeat.py -p hello 10.102.75.2"
 
-    fabric.tasks.execute(lambda: fabric.api.run(command, pty=False), hosts=["root@" + ip for ip in self.client_ips])
+    fabric.tasks.execute(lambda: fabric.api.run(command), hosts=["root@" + ip for ip in self.client_ips])
 
     #for ip in self.client_ips:
     #  print "Starting" + str(ip)
