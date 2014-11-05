@@ -40,7 +40,7 @@ class MrJob:
       return self.results
 
   def start_clients(self):
-    for ip in client_ips:
+    for ip in self.client_ips:
       print ip
       # self.start_client(ip)
 
