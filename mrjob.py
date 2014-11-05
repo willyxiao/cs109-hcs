@@ -6,11 +6,12 @@ import signal
 import sys
 import time
 import pickle
-import fabric
+import fabric.api
+import fabric.tasks
+import fabric.network
 
 class MrJob:
   password = "hello"
-  command = "mincemeat.py -p " + password + " 10.102.75.2"
   server_ip = "10.102.75.2"
   client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8", "208.43.122.12"]
 
@@ -22,6 +23,8 @@ class MrJob:
     else:
       self.name = name + self.start_time
 
+    self.command = "dtach -n /tmp/" + self.name + " /usr/local/bin/mincemeat.py -p hello 10.102.75.2"
+    
     self.mapfn = mapfn
     self.reducefn = reducefn
 
