@@ -1,6 +1,0 @@
-cmd="mincemeat.py -p hello 10.102.75.2"
-
-echo $cmd | ssh root@208.43.122.14 'bash -s' &
-echo $cmd | ssh root@208.43.122.10 'bash -s' &
-echo $cmd | ssh root@208.43.122.11 'bash -s'
-
