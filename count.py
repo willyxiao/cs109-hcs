@@ -8,8 +8,11 @@ def mapfn(k, v):
 
   mbox = mailbox.mbox(v)
   for msg in mbox:
-    email_date = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
-    yield (email_date.weekday(), email_date.hour), 1
+    try:
+      email_date = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
+      yield (email_date.weekday(), email_date.hour), 1
+    except:
+      yield None, 1
 
 def reducefn(k, vs):
   return sum(vs)

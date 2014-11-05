@@ -50,7 +50,7 @@ class MrJob:
   def start_clients(self):
     fabric.tasks.execute(lambda: fabric.api.run(self.command), hosts=["root@" + ip for ip in self.client_ips])
     fabric.network.disconnect_all()
-    self.maintain_clients(self.client_ips)
+    # self.maintain_clients(self.client_ips)
 
   def maintain_clients(self, ips):
     while True:
