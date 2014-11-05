@@ -13,12 +13,12 @@ class MrJob:
   client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8"]
 
   def __init__(self, mapfn, reducefn, name=None, test=False):
-    self.start_time = time.time()
+    self.start_time = time.strftime("%Y%m%d%H%M%S")
 
     if name is None:
-      self.name = "mrjob" + str(int(self.start_time))
+      self.name = "mrjob" + self.start_time
     else:
-      self.name = name + str(int(self.start_time))
+      self.name = name + self.start_time
 
     self.mapfn = mapfn
     self.reducefn = reducefn
@@ -56,10 +56,13 @@ class MrJob:
     logname = self.name + ".log"
     logging.basicConfig(filename=logname,level=logging.DEBUG)
 
+    outname = self.name + ".out"
+    outfile = open(outname, "w")
+
     s = mincemeat.Server()
     s.datasource = self.data
     s.mapfn = self.mapfn
     s.reducefn = self.reducefn
     result = s.run_server(password=self.password)
-    pickle.dump(result, self.name + ".out")
+    pickle.dump(result, outfile)
     return result
