@@ -15,5 +15,5 @@ def reducefn(k, vs):
   return sum(vs)
 
 if __name__ == '__main__':
-  job = mrjob.MrJob(mapfn, reducefn, name="day_and_hour_test", test=True)
+  job = mrjob.MrJob(mapfn, reducefn, name="dayhour", test=False)
   print job.run()
