@@ -16,6 +16,9 @@ alias gco='git checkout'
 alias gpl='git pull'
 alias gph='git push'" >> ~/.bash_profile
 
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLND8KS+lN3j4axmVBxYVwleU1KCRuGtUkyJruQr2E0EF64NdVwtY1zALGmul466akIZj2PKvhaz68sNtnmmdhBwsKtalfh5zc297fFm52ySC3Lj3doQgrYbevkyvLNOUMd7ixrOXUpOGsiKXzvqu2X7QLJIUf//0Oe+Ed6rW7zW/sULMPH0N+GdLY/7oM2DKu46znMYz1R1cY1jlRy+0zEQJatjmojHnibPFN+yH9t3UCSZ+v6ekMr2rNRBcUL85nATv5sAnLcMHdQneUM2hHn48aFBIl4PfJJfeyKVL9dTOMfck4+H44W4XmBW24qswDU/0Xnk4JElhaVhgRdfih root@staging2
+" >> ~/.ssh/authorized_keys
+
 pip install mincemeat
 pip install mailbox
 
