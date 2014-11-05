@@ -4,6 +4,7 @@ def mapfn(k, v):
   import mailbox
   import email.utils
   import time
+  import datetime
 
   mbox = mailbox.mbox(v)
   for msg in mbox:
