@@ -1,0 +1,22 @@
+#!/bin/bash
+
+apt-get install vim python-pip nfs-client
+mount -t nfs4 -o hard,intr nfswdc0101d.service.softlayer.com:/SL01SV391674_1 /mnt
+
+echo "set expandtab tabstop=2
+set nu rnu
+syntax on
+set hlsearch" >> ~/.vimrc
+
+echo "alias g='git'
+alias gs='git status'
+alias gb='git branch'
+alias gci='git commit'
+alias gco='git checkout'
+alias gpl='git pull'
+alias gph='git push'" >> ~/.bash_profile
+
+pip install mincemeat
+pip install mailbox
+
+
