@@ -10,7 +10,7 @@ import pickle
 class MrJob:
   password = "hello"
   server_ip = "10.102.75.2"
-  client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8"]
+  client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8"]#, "208.43.122.12"]
 
   def __init__(self, mapfn, reducefn, name=None, test=False):
     self.start_time = time.time()
@@ -41,15 +41,18 @@ class MrJob:
 
   def start_clients(self):
     for ip in self.client_ips:
-      print ip
-      # self.start_client(ip)
+      print "Starting" + str(ip)
+      self.start_client(ip)
 
   def start_client(self, ip):
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy())
     client.connect(ip, username="root")
-    stdin, stdout, stderr = client.exec_command('mincemeat.py -p ' + self.password + ' 10.102.75.2')
+    mrjobclient = open("bin/mrjobclient", 'r')
+    stdin, stdout, stderr = client.exec_command(mrjobclient.read())
+    mrjobclient.close()
+    print stdout.read()
     client.close()
 
   def start_server(self):
