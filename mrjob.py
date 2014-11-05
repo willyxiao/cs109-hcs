@@ -4,13 +4,14 @@ import logging
 import os
 import sys
 import time
-import paramiko
 import pickle
+import fabric.api
+import fabric.tasks
 
 class MrJob:
   password = "hello"
   server_ip = "10.102.75.2"
-  client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8"]#, "208.43.122.12"]
+  client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8", "208.43.122.12"]
 
   def __init__(self, mapfn, reducefn, name=None, test=False):
     self.start_time = time.strftime("%Y%m%d%H%M%S")
@@ -36,22 +37,25 @@ class MrJob:
       self.start_clients()
       sys.exit()
     else:
+      print "Starting server..."
       self.results = self.start_server()
       return self.results
 
   def start_clients(self):
-    for ip in self.client_ips:
-      print "Starting" + str(ip)
-      self.start_client(ip)
+    command = "mincemeat.py -p hello 10.102.75.2"
+
+    fabric.tasks.execute(lambda: fabric.api.run(command), hosts=["root@" + ip for ip in self.client_ips])
+
+    #for ip in self.client_ips:
+    #  print "Starting" + str(ip)
+    #  self.start_client(ip)
 
   def start_client(self, ip):
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy())
     client.connect(ip, username="root")
-    mrjobclient = open("bin/mrjobclient", 'r')
-    stdin, stdout, stderr = client.exec_command(mrjobclient.read())
-    mrjobclient.close()
+    stdin, stdout, stderr = client.exec_command("/mnt/bin/mrjobclient")
     print stdout.read()
     client.close()
 
