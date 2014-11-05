@@ -50,15 +50,15 @@ class MrJob:
   def start_clients(self):
     fabric.tasks.execute(lambda: fabric.api.run(self.command), hosts=["root@" + ip for ip in self.client_ips])
     fabric.network.disconnect_all()
-#    self.maintain_clients(self.client_ips)
+    self.maintain_clients(self.client_ips)
 
-  def mantain_clients(ips):
+  def maintain_clients(self, ips):
     while True:
       for ip in ips:
-        self.mantain_client(ip)
+        self.maintain_client(ip)
       time.sleep(60)
 
-  def mantain_client(self, ip):
+  def maintain_client(self, ip):
     def fabric_task():
       output = fabric.api.run("ps aux | grep mincemeat | wc -l")
       print(output)
