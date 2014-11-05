@@ -25,8 +25,8 @@ class MrJob:
 
     glob_prefix = "/mnt"
     glob_suffix = "*.mbox"
-    glob_body = "subset" if sample else "archives"
-    glob_str = [glob_prefix, glob_body, glob_suffix].join("/")
+    glob_body = "subset" if test else "archives"
+    glob_str = "/".join([glob_prefix, glob_body, glob_suffix])
 
     self.data = dict(enumerate(glob.glob(glob_str)))
 
@@ -49,17 +49,17 @@ class MrJob:
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy())
     client.connect(ip, username="root")
-    stdin, stdout, stderr = client.exec_command('mincemeat.py -p ' + password + ' 10.102.75.2')
+    stdin, stdout, stderr = client.exec_command('mincemeat.py -p ' + self.password + ' 10.102.75.2')
     client.close()
 
   def start_server(self):
-    logname = "mrjob" + str(int(self.start_time)) ".log"
+    logname = "mrjob" + str(int(self.start_time)) + ".log"
     logging.basicConfig(filename=logname,level=logging.DEBUG)
 
     s = mincemeat.Server()
     s.datasource = self.data
     s.mapfn = self.mapfn
     s.reducefn = self.reducefn
-    result = s.run_server(password=password)
+    result = s.run_server(password=self.password)
     pickle.dump(result, self.name)
     return result
