@@ -56,16 +56,15 @@ class MrJob:
     while True:
       for ip in ips:
         self.mantain_client(ip)
+      time.sleep(60)
 
-
-  # def start_client(self, ip):
-  #   client = paramiko.SSHClient()
-  #   client.load_system_host_keys()
-  #   client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy())
-  #   client.connect(ip, username="root")
-  #   stdin, stdout, stderr = client.exec_command("/mnt/bin/mrjobclient")
-  #   print stdout.read()
-  #   client.close()
+  def mantain_client(self, ip):
+    def fabric_task():
+      output = fabric.api.run("ps aux | grep mincemeat | wc -l")
+      print(output)
+      if int(output) != 2:
+        fabric.api.run(self.command)
+    fabric.tasks.execute(fabric_task, hosts=["root@" + ip])
 
   def start_server(self):
     logname = self.name + ".log"
