@@ -5,13 +5,21 @@ import os
 import sys
 import time
 import paramiko
+import pickle
 
 class MrJob:
   password = "hello"
   server_ip = "10.102.75.2"
   client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8"]
 
-  def __init__(self, mapfn, reducefn, test=False):
+  def __init__(self, mapfn, reducefn, name=None, test=False):
+    self.start_time = time.time()
+
+    if name is None:
+      self.name = "mrjob" + str(int(self.start_time)) + ".out"
+    else:
+      self.name = name + str(int(self.start_time)) + ".out"
+
     self.mapfn = mapfn
     self.reducefn = reducefn
 
@@ -33,7 +41,8 @@ class MrJob:
 
   def start_clients(self):
     for ip in client_ips:
-      self.start_client(ip)
+      print ip
+      # self.start_client(ip)
 
   def start_client(self, ip):
     client = paramiko.SSHClient()
@@ -44,13 +53,13 @@ class MrJob:
     client.close()
 
   def start_server(self):
-    logname = "mrjob" + str(int(time.time())) ".log"
+    logname = "mrjob" + str(int(self.start_time)) ".log"
     logging.basicConfig(filename=logname,level=logging.DEBUG)
 
     s = mincemeat.Server()
     s.datasource = self.data
     s.mapfn = self.mapfn
     s.reducefn = self.reducefn
-    return s.run_server(password=password)
-
-
+    result = s.run_server(password=password)
+    pickle.dump(result, self.name)
+    return result
