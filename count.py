@@ -1,32 +1,18 @@
-import mincemeat
-import glob
-import logging
-
-logging.basicConfig(filename='count.log',level=logging.DEBUG)
-
-true_glob = "/mnt/archives/*.mbox"
-subset_glob = "/mnt/subset/*.mbox"
-
-data = dict(enumerate(glob.glob(true_glob)))
+import mrjob
 
 def mapfn(k, v):
   import mailbox
-  import socket
-  mbox = mailbox.mbox(v)
+  import email.utils
+  import time
 
-  yield 0, mbox.__len__()
+  mbox = mailbox.mbox(v)
+  for msg in mbox:
+    email_date = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
+    yield (email_date.weekday(), email_date.hour), 1
 
 def reducefn(k, vs):
-  return sum(vs)
+  return k, sum(vs)
 
-s = mincemeat.Server()
-
-s.datasource = data
-s.mapfn = mapfn
-s.reducefn = reducefn
-
-results = s.run_server(password="hello")
-
-outfile = open('count.out', 'w')
-
-print results[0]
+if __name__ == '__main__':
+  job = mrjob.MrJob(mapfn, reducefn, name="day_and_hour_test", test=True)
+  print job.run()
