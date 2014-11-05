@@ -12,7 +12,7 @@ def mapfn(k, v):
     yield (email_date.weekday(), email_date.hour), 1
 
 def reducefn(k, vs):
-  return k, sum(vs)
+  return sum(vs)
 
 if __name__ == '__main__':
   job = mrjob.MrJob(mapfn, reducefn, name="day_and_hour_test", test=True)
