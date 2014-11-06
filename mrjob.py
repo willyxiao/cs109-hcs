@@ -15,7 +15,7 @@ class MrJob:
   server_ip = "10.102.75.2"
   client_ips = ["10.102.75.4", "10.102.75.6", "10.102.75.8", "208.43.122.12"]
 
-  def __init__(self, mapfn, reducefn, name=None, test=False):
+  def __init__(self, mapfn, reducefn, name=None, test=False, email='willy@chenxiao.us'):
     self.start_time = time.strftime("%Y%m%d%H%M%S")
 
     if name is None:
@@ -24,7 +24,7 @@ class MrJob:
       self.name = name + self.start_time
 
     self.command = "dtach -n /tmp/" + self.name + " /usr/local/bin/mincemeat.py -p hello 10.102.75.2"
-    
+
     self.mapfn = mapfn
     self.reducefn = reducefn
 
@@ -40,31 +40,16 @@ class MrJob:
 
     if pid == 0:
       time.sleep(5)
+      print "Starting clients..."
       self.start_clients()
     else:
       print "Starting server..."
       self.results = self.start_server()
-      os.kill(pid, signal.SIGKILL)
       return self.results
 
   def start_clients(self):
     fabric.tasks.execute(lambda: fabric.api.run(self.command), hosts=["root@" + ip for ip in self.client_ips])
     fabric.network.disconnect_all()
-    # self.maintain_clients(self.client_ips)
-
-  def maintain_clients(self, ips):
-    while True:
-      for ip in ips:
-        self.maintain_client(ip)
-      time.sleep(60)
-
-  def maintain_client(self, ip):
-    def fabric_task():
-      output = fabric.api.run("ps aux | grep mincemeat | wc -l")
-      print(output)
-      if int(output) != 2:
-        fabric.api.run(self.command)
-    fabric.tasks.execute(fabric_task, hosts=["root@" + ip])
 
   def start_server(self):
     logname = self.name + ".log"
