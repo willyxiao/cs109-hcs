@@ -10,12 +10,15 @@ def mapfn(k, v):
   for msg in mbox:
     try:
       email_date = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
-      yield (email_date.weekday(), email_date.hour), 1
+      yield email_date.year, k
     except:
       yield None, 1
 
 def reducefn(k, vs):
-  return sum(vs)
+  uniq_lists = set()
+  for v in vs:
+    uniq_lists.add(v)
+  return len(uniq_lists)
 
 if __name__ == '__main__':
   job = mrjob.MrJob(mapfn, reducefn, name="dayhour", test=False)
