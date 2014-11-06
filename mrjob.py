@@ -68,7 +68,7 @@ class MrJob:
 
   def start_server(self):
     logname = self.name + ".log"
-    logging.basicConfig(filename=logname,level=logging.DEBUG)
+    logging.basicConfig(filename=logname,level=logging.INFO)
 
     outname = self.name + ".out"
     outfile = open(outname, "w")
