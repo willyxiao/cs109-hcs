@@ -72,7 +72,7 @@ def mapfn(k, v):
   import json
 
   try:
-    outfile = open("out/file" + str(k), "w")
+    outfile = open("out/file" + str(k) + ".json", "w")
     json.dump(make_graph(v), outfile)
     outfile.close()
   except:
