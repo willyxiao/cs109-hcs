@@ -34,13 +34,20 @@ def make_graph(mbox):
       mailing_threads[thread] = []
 
     for B_email, B_time in mailing_threads[thread]:
-      if A_email not in graph:
-        graph[A_email] = {}
-
-      if B_email not in graph[A_email]:
-        graph[A_email][B_email] = new_graph_weight(A_time - B_time)
+      if A_time > B_time:
+        greater_time, lesser_time = A_time, B_time
+        greater_email, lesser_email = A_email, B_email
       else:
-        graph[A_email][B_email] = update_graph_weight(graph[A_email][B_email], A_time - B_time)
+        greater_time, lesser_time = B_time, A_time
+        greater_email, lesser_email = B_email, A_email
+
+      if greater_email not in graph:
+        graph[greater_email] = {}
+
+      if lesser_email not in graph[greater_email]:
+        graph[greater_email][lesser_email] = new_graph_weight(greater_time - lesser_time)
+      else:
+        graph[greater_email][lesser_email] = update_graph_weight(graph[greater_email][lesser_email], greater_time - lesser_time)
 
     mailing_threads[thread].append((A_email, A_time))
 
@@ -49,7 +56,7 @@ def make_graph(mbox):
 def new_graph_weight(timedelta):
   diff = timedelta.total_seconds()
   if diff < 1:
-    logging.error("Time difference less than 1")
+    logging.error("Time difference is " + str(diff))
     diff = 1
   return 1/math.sqrt(diff)
 
