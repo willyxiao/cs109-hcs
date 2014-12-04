@@ -53,5 +53,5 @@ def strip_punctuation(body):
 def delete_nums(body):
 	return re.sub(' \d+', '', body)
 
-def replace_newlines(body)
+def replace_newlines(body):
 	return body.replace('\n',' ')
