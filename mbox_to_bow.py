@@ -76,11 +76,11 @@ def split_by_response(mbox):
 			logging.error("Could not parse subject " + str(msg['Subject']))
 			continue
 
-	try:
-		A_email = email.utils.parseaddr(msg['From'])[1]
-	except:
-		logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
-		continue
+		try:
+			A_email = email.utils.parseaddr(msg['From'])[1]
+		except:
+			logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
+			continue
 
 	if thread not in mailing_threads:
 		mailing_threads[thread] = []
