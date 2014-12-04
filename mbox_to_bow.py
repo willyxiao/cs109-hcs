@@ -19,6 +19,7 @@ def make_bow(mbox):
 			body = strip_punctuation(delete_nums(body)).strip().lower()
 			# split on spaces
 			split_body = body.split(' ')
+			split_body = split_body.splitlines()
 			bow = collections.Counter(split_body)
 			print bow
 			# strip punctuation after counting exclamations
