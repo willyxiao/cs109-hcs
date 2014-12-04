@@ -14,12 +14,12 @@ def make_bow(mbox):
 		try:
 			body = get_body(msg)
 			exclamations = count_exclamations(body)
-			# strip punctuation, remove numbers on their own,
 			# strip newlines, make lowercase
-			body = strip_punctuation(delete_nums(body)).strip().lower()
+			# strip punctuation, remove numbers on their own,
+			body = replace_newlines(body)
+			body = strip_punctuation(delete_nums(body)).lower()
 			# split on spaces
 			split_body = body.split(' ')
-			split_body = split_body.splitlines()
 			bow = collections.Counter(split_body)
 			print bow
 			# strip punctuation after counting exclamations
@@ -52,3 +52,6 @@ def strip_punctuation(body):
 
 def delete_nums(body):
 	return re.sub(' \d+', '', body)
+
+def replace_newlines(body)
+	return body.replace('\n',' ')
