@@ -10,6 +10,8 @@ def make_bow(mbox):
 	if type(mbox) is str:
 		mbox = mailbox.mbox(mbox)
 
+	# define global bag of words
+
 	for msg in mbox:
 		try:
 			body = get_body(msg)
