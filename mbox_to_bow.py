@@ -4,6 +4,7 @@ import email.utils
 import pdb
 import math
 import logging
+import collections
 
 def make_bow(mbox):
 	if type(mbox) is str:
@@ -12,7 +13,13 @@ def make_bow(mbox):
 	for msg in mbox:
 		try:
 			body = get_body(msg)
-			print count_exclamations(body)
+			exclamations = count_exclamations(body)
+			# strip punctuation, remove numbers on their own, make lowercase
+			body = strip_punctuation(delete_nums(body)).lower()
+			bow = collections.Counter(body)
+			print bow
+			# strip punctuation after counting exclamations
+			# lowercase everything
 		except:
 			logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
@@ -35,3 +42,9 @@ def get_body(msg):
 
 def count_exclamations(body):
 	return body.count('!')
+
+def strip_punctuation(body):
+	return re.sub(ur"\p{P}+", "", body)
+
+def delete_nums(body):
+	return re.sub(' \d+', '', body)
