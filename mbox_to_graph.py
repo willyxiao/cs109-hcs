@@ -88,7 +88,7 @@ def split_by_response(mbox):
     if thread not in mailing_threads:
       mailing_threads[thread] = []
 
-    mailing_threads[thread].append(A_email)
+    mailing_threads[thread].append(msg)
 
   for i in mailing_threads:
     if len(mailing_threads[i]) > 1:
