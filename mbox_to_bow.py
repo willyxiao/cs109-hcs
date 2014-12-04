@@ -16,7 +16,9 @@ def make_bow(mbox):
 			exclamations = count_exclamations(body)
 			# strip punctuation, remove numbers on their own, make lowercase
 			body = strip_punctuation(delete_nums(body)).lower()
-			bow = collections.Counter(body)
+			# split on spaces
+			split_body = body.split(' ')
+			bow = collections.Counter(split_body)
 			print bow
 			# strip punctuation after counting exclamations
 			# lowercase everything
@@ -44,7 +46,7 @@ def count_exclamations(body):
 	return body.count('!')
 
 def strip_punctuation(body):
-	return re.sub(ur"\p{P}+", "", body)
+	return re.sub(ur'\p{P}+', '', body)
 
 def delete_nums(body):
 	return re.sub(' \d+', '', body)
