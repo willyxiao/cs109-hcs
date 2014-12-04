@@ -11,7 +11,7 @@ def make_bow(mbox):
 		mbox = mailbox.mbox(mbox)
 
 	# define global bag of words
-	global_bow = collections.Counter()
+	global_text = []
 
 	for msg in mbox:
 		try:
@@ -23,8 +23,10 @@ def make_bow(mbox):
 			body = strip_punctuation(delete_nums(body)).lower()
 			# split on spaces
 			split_body = body.split(' ')
-			bow = collections.Counter(split_body)
-			global_bow = collections.Counter(bow,global_bow)
+			# bow = collections.Counter(split_body)
+			# global_bow = collections.Counter(bow,global_bow)
+			global_text = global_text + split_body
+			global_bow = collections.Counter(global_text)
 			print global_bow
 			# strip punctuation after counting exclamations
 			# lowercase everything
