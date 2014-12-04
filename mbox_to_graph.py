@@ -100,7 +100,6 @@ def split_by_response(mbox):
   no_response = sum(no_response, [])
 
   split = (responded, no_response)
-  print split
 
   return split
 
