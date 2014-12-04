@@ -29,3 +29,4 @@ def get_body(msg):
 				body = part.get_payload(decode=True)
 	elif msg.get_content_type() == 'text/plain':
 		body = msg.get_payload(decode=True)
+	return body
