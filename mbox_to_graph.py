@@ -99,9 +99,5 @@ def split_by_response(mbox):
   responded = sum(responded, [])
   no_response = sum(no_response, [])
 
-  print len(responded)
-  print len(no_response)
-  print len(mbox)
-
-  return True
+  return (responded, no_response)
 
