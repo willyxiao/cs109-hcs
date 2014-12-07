@@ -81,3 +81,30 @@ hr{
   border-color: #20abbb;
 }
 
+
+/* Styles for graph */
+.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+.selfloop {
+  stroke-width: 3px;
+}
+
+#licensing {
+  fill: green;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}

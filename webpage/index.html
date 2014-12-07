@@ -4,6 +4,7 @@
 	<title>Email Project</title>
 	<link href="style.css" rel="stylesheet" type="text/css"/>
 	<script src="assets/jquery-2.1.1.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			$('a').click(function(){
@@ -74,6 +75,7 @@
 		<div class="section" id="network">
 			<!-- <img class="thumb" src="assets/email.png"> -->
 			<h1 id="name">Network Analysis</h1>
+			<div id="network-graph"></div>
 		</div>
 		<hr>	
 		<div class="section" id="predict">
@@ -86,4 +88,5 @@
 			<h1 id="name">Response Predictor</h1>
 		</div>			
 	</div>
+	<script src="graph.js"></script>
 </body>
