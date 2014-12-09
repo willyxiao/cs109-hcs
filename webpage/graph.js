@@ -14,7 +14,7 @@ var svg = d3.select("#network-graph").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-// Per-type markers, as they don't inherit styles.
+// marker def for arrowhead
 svg.append("defs")
   .append("marker")
     .attr("id", "arrow")
@@ -27,18 +27,18 @@ svg.append("defs")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
-d3.json("scas_list_graph.json", function(error, data) {
+d3.json("hcs-board.json", function(error, data) {
   graph_data = data;
 
   // loop through keys in graph_data
   for (var source in graph_data) {
     for (var target in graph_data[source]) {
       var link = {};
-      link.source = graph_nodes[source] || (graph_nodes[source] = {name: source, totalTime: 0});
-      link.target = graph_nodes[target] || (graph_nodes[target] = {name: target, totalTime: 0});
+      link.source = graph_nodes[source] || (graph_nodes[source] = {name: source, inWeight: 0});
+      link.target = graph_nodes[target] || (graph_nodes[target] = {name: target, inWeight: 0});
       link.time = graph_data[source][target];
 
-      graph_nodes[source].totalTime += link.time;
+      graph_nodes[target].inWeight += link.time;
 
       graph_links.push(link);
     }
@@ -49,13 +49,13 @@ d3.json("scas_list_graph.json", function(error, data) {
   });
 
   total_time_extent = d3.extent(d3.values(graph_nodes), function(d) {
-    return d.totalTime;
+    return d.inWeight;
   })
 
   // link distance scale (edge weight)
   var edgeWeight = d3.scale.linear()
     .domain(time_extent)
-    .range([50, 280]);
+    .range([100, 300]);
 
   // opacity scale based on time val (edge weight)
   var opacityScale = d3.scale.linear()
@@ -118,7 +118,7 @@ d3.json("scas_list_graph.json", function(error, data) {
         return fixEmail(d.name);
       })
       .attr("r", function(d) {
-        return radiusScale(d.totalTime);
+        return radiusScale(d.inWeight);
       })
       .call(force.drag);
 
