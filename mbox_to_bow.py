@@ -333,6 +333,9 @@ def train_classifier(mbox,num_words):
 	# print svm_test_scores
 	
 	# add classifiers to list
+
+	print rf.get_params()
+
 	classifiers.append(rf)
 	classifiers.append(svm)
 
