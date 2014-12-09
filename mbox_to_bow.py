@@ -5,8 +5,6 @@ import pdb
 import math
 import logging
 import collections
-import matplotlib.pyplot as plt
-import seaborn
 
 def make_bow(mbox):#,num_words):
 	if type(mbox) is str:
