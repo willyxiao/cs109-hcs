@@ -8,9 +8,9 @@ outpath = "webpage/"
 
 # takes the name of the list (i.e. without the '/mnt/archive')
 def create_json(mlist):
-	full_path = path + mlist + ".mbox"
+	full_path = inpath + mlist + ".mbox"
 	data = mbox_to_graph.make_graph(full_path)
-	with open(webpage + mlist + ".json", "w") as outfile:
+	with open(outpath + mlist + ".json", "w") as outfile:
 		json.dump(data, outfile)
 
 if __name__ == "__main__":
