@@ -194,7 +194,7 @@ def train_classifier(mbox,num_words):
 	num_neg = len(split[1])
 	print num_pos
 	print num_neg
-	break
+	return
 
 	train_pos = split[0]
 	train_neg = split[1]
