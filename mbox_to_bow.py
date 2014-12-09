@@ -135,4 +135,4 @@ def split_by_response(mbox):
 
 	split = (responded, no_response)
 
-	return split
+	return responded
