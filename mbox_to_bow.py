@@ -13,6 +13,7 @@ import random
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import cross_val_score
+from sklearn.svm import SVC
 
 
 def make_bow(mbox,num_words):
@@ -270,31 +271,42 @@ def train_classifier(mbox,num_words):
 	test_times = np.array(test_times)
 
 	# train, evaluate, and test random forest
-	train_scores = []
-	test_scores = []
+	rf_train_scores = []
+	rf_test_scores = []
 	for n in xrange(1,20):
-		rf = RandomForestClassifier(n_estimators = n)
+		rf = RandomForestClassifier(n_estimators=n)
 		rf.fit(train_bow_mat,train_bool_responses)
-		train_scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
-		test_scores.append(rf.score(test_bow_mat,test_bool_responses))
+		rf_train_scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
+		rf_test_scores.append(rf.score(test_bow_mat,test_bool_responses))
 
+	# train, evaluate, and test SVM
+	svm_train_scores = []
+	svm_test_scores = []
+	svm = SVC(C=1.0, gamma=1.0, probability=True)
+	svm.fit(train_bow_mat,train_bool_responses)
+	svm_train_scores.append(cross_val_score(svm,train_bow_mat,train_bool_responses,cv=10))
+	svm_test_scores.append(svm.score(test_bow_mat,test_bool_responses))
 
-	# fig = plt.figure()
-	# fig.add_subplot(1,1,1)
-	# fig.set_size_inches(10,10)
-	# sns.boxplot(scores)
-	# plt.show()
-
-	# print train_scores
-	# for x in train_scores:
+	## Random Forest Stats
+	# print rf_train_scores
+	# for x in rf_train_scores:
 	# 	print sum(x) / float(len(x))
 
-	print test_scores
+	# print rf_test_scores
+
+	## SVM Stats
+	print svm_train_scores
+	for x in svm_train_scores:
+		print sum(x) / float(len(x))
+
+	print svm_test_scores
+
+	# return rf, global_bow_words
 
 	# n = 6 and 16 are good? (random forest binary classifier)
 	# have to split into test and train better though...
 
-	# now evaluate on TEST DATA
+
 
 
 
