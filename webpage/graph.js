@@ -27,20 +27,22 @@ svg.append("defs")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
-d3.json("scas-list.json", function(error, data) {
+d3.json("hrcm-underground.json", function(error, data) {
   graph_data = data;
 
   // loop through keys in graph_data
   for (var source in graph_data) {
     for (var target in graph_data[source]) {
-      var link = {};
-      link.source = graph_nodes[source] || (graph_nodes[source] = {name: source, inWeight: 0});
-      link.target = graph_nodes[target] || (graph_nodes[target] = {name: target, inWeight: 0});
-      link.time = graph_data[source][target];
+      if (target != source) {
+        var link = {};
+        link.source = graph_nodes[source] || (graph_nodes[source] = {name: source, inWeight: 0});
+        link.target = graph_nodes[target] || (graph_nodes[target] = {name: target, inWeight: 0});
+        link.time = graph_data[source][target];
 
-      graph_nodes[target].inWeight += link.time;
+        graph_nodes[target].inWeight += link.time;
 
-      graph_links.push(link);
+        graph_links.push(link);
+      }
     }
   }
 
