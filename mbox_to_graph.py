@@ -7,7 +7,7 @@ import pdb
 import math
 import logging
 
-def make_graph(mbox):
+def make_graph(mbox, year):
   if type(mbox) is str:
     mbox = mailbox.mbox(mbox)
 
@@ -30,26 +30,28 @@ def make_graph(mbox):
       logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
       continue
 
-    if thread not in mailing_threads:
-      mailing_threads[thread] = []
+    # remove emails with the wrong date
+    if A_time.year == year:
+      if thread not in mailing_threads:
+        mailing_threads[thread] = []
 
-    for B_email, B_time in mailing_threads[thread]:
-      if A_time > B_time:
-        greater_time, lesser_time = A_time, B_time
-        greater_email, lesser_email = A_email, B_email
-      else:
-        greater_time, lesser_time = B_time, A_time
-        greater_email, lesser_email = B_email, A_email
+      for B_email, B_time in mailing_threads[thread]:
+        if A_time > B_time:
+          greater_time, lesser_time = A_time, B_time
+          greater_email, lesser_email = A_email, B_email
+        else:
+          greater_time, lesser_time = B_time, A_time
+          greater_email, lesser_email = B_email, A_email
 
-      if greater_email not in graph:
-        graph[greater_email] = {}
+        if greater_email not in graph:
+          graph[greater_email] = {}
 
-      if lesser_email not in graph[greater_email]:
-        graph[greater_email][lesser_email] = new_graph_weight(greater_time - lesser_time)
-      else:
-        graph[greater_email][lesser_email] = update_graph_weight(graph[greater_email][lesser_email], greater_time - lesser_time)
+        if lesser_email not in graph[greater_email]:
+          graph[greater_email][lesser_email] = new_graph_weight(greater_time - lesser_time)
+        else:
+          graph[greater_email][lesser_email] = update_graph_weight(graph[greater_email][lesser_email], greater_time - lesser_time)
 
-    mailing_threads[thread].append((A_email, A_time))
+      mailing_threads[thread].append((A_email, A_time))
 
   return graph
 
