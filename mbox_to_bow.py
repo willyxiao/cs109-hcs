@@ -189,17 +189,34 @@ def find_time(mbox):
 def train_classifier(mbox,num_words):
 
 	# split data
+	split_pct = 0.6  # test-train split percent
 	split = split_by_response(mbox)
 	num_pos = len(split[0])
 	num_neg = len(split[1])
-	print num_pos
-	print num_neg
-	return
+	# print num_pos  # 611 scas
+	# print num_neg  # 1441 scas
+	pos_split_idx = int(num_pos * split_pct)
+	neg_split_idx = int(num_neg * split_pct)
+	print pos_split_idx
+	print neg_split_idx
 
-	train_pos = split[0]
-	train_neg = split[1]
-	test_pos = split[0]
-	test_neg = split[1]
+	# shuffle data
+	pos_data = random.shuffle(split[0])
+	neg_data = random.shuffle(split[1])
+
+	# split data
+	train_pos = pos_data[:pos_split_idx]
+	train_neg = neg_data[:neg_split_idx]
+	test_pos = pos_data[pos_split_idx:]
+	test_neg = neg_data[neg_split_idx:]
+
+	train_data = train_pos + train_neg
+	test_data = test_pos + test_neg
+
+	print len(train_data)
+	print len(test_data)
+
+	return
 
 	# get data matrices
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
