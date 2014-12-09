@@ -53,12 +53,17 @@ def make_bow(mbox,num_words):
 			logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
-		print msg_word_dict
 		bow_list.append(msg_word_dict)
 
-	# print msg_word_dict
+	# print bow_list
+	# print len(bow_list)  # 2033
 
-	# make matrix
+	bow_mat = []
+	for entry in bow_list:
+		bow_mat.append(entry.values())
+
+	print bow_mat
+	print len(bow_mat)
 
 
 	# cull down each individual email to that set
