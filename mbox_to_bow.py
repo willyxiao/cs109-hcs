@@ -183,5 +183,6 @@ def find_time(mbox):
 def train_classifier(mbox,num_words):
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
 	times = find_time(mbox)
-	print times
+	print len(times)
+	print len(bow_mat)
 
