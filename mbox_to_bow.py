@@ -33,11 +33,34 @@ def make_bow(mbox,num_words):
 	global_bow_top = global_bow.most_common(num_words)
 
 	global_bow_words = [x[0] for x in global_bow_top]
-	print global_bow_words
 
-	# return global_bow
+	# get dictionary of all words in order with 0's
+	viable_word_dict = dict.fromkeys(global_bow_words,0)
 
-	# then from this get set of words
+	bow_list = []
+	for msg in mbox:
+		msg_word_dict = viable_word_dict
+		try:
+			body = get_body(msg)
+			exclamaions = count_exclamations(body)
+			body = replace_newlines(body)
+			body = strip_punctuation(delete_nums(body)).lower()
+			split_body = body.split(' ')
+			for word in split_body:
+				if word in viable_word_dict.keys():
+					msg_word_dict[word] += 1
+		except:
+			logging.error('Could not get body of email' + str(msg['Subject']))
+			continue
+
+		print msg_word_dict
+		bow_list.append(msg_word_dict)
+
+	# print msg_word_dict
+
+	# make matrix
+
+
 	# cull down each individual email to that set
 	# then analyze / train on stuff later?
 
