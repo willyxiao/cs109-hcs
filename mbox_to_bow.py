@@ -199,7 +199,7 @@ def train_classifier(mbox,num_words):
 
 	# train random forest
 	scores = []
-	for n in xrange(1,5):
+	for n in xrange(1,20):
 		rf = RandomForestClassifier(n_estimators = n)
 		rf.fit(bow_mat,bool_responses)
 		scores.append(cross_val_score(rf,bow_mat,bool_responses,cv=10))
@@ -213,6 +213,8 @@ def train_classifier(mbox,num_words):
 	print scores
 	for x in scores:
 		print sum(x) / float(len(x))
+
+
 
 
 

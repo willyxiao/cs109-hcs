@@ -11,7 +11,8 @@ def create_json(mlist, year):
   full_path = inpath + mlist + ".mbox"
   print full_path
   print year
-  print mbox_to_graph.make_graph(full_path, year)
+  data = mbox_to_graph.make_graph(full_path, year)
+  print data
   with open(outpath + "{0}-{1}.json".format(mlist, year), "w") as outfile:
     json.dump(data, outfile)
 
