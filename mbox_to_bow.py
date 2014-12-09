@@ -187,6 +187,20 @@ def find_time(mbox):
 
 
 def train_classifier(mbox,num_words):
+
+	# split data
+	split = split_body(mbox)
+	num_pos = len(split[0])
+	num_neg = len(split[1])
+	print num_pos
+	print num_neg
+	break
+
+	train_pos = split[0]
+	train_neg = split[1]
+	test_pos = split[0]
+	test_neg = split[1]
+
 	# get data matrices
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
 	times = find_time(mbox)
@@ -213,6 +227,13 @@ def train_classifier(mbox,num_words):
 	print scores
 	for x in scores:
 		print sum(x) / float(len(x))
+
+	# n = 6 and 16 are good? (random forest binary classifier)
+	# have to split into test and train better though...
+
+
+
+
 
 
 
