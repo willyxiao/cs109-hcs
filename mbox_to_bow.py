@@ -259,7 +259,7 @@ def train_classifier(mbox,num_words):
 
 	# get data matrices - TEST DATA
 	test_bow_mat = make_bow_given_dict(test_data, global_bow_words)
-	train_times = find_time(test_data)
+	test_times = find_time(test_data)
 	test_bool_responses = [1 if x > 0 else 0 for x in test_times]
 	test_times = [x if x > 0 else float('Inf') for x in test_times]
 
