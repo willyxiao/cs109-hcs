@@ -81,6 +81,10 @@ def make_bow(mbox,num_words):
 
 
 def make_bow_given_dict(mbox,global_bow_words):
+
+	if type(mbox) is str:
+		mbox = mailbox.mbox(mbox)
+
 	bow_list = []
 	for msg in mbox:
 		msg_word_dict = dict.fromkeys(global_bow_words,0)
@@ -270,10 +274,12 @@ def train_classifier(mbox,num_words):
 	test_bool_responses = np.array(test_bool_responses)
 	test_times = np.array(test_times)
 
+	classifiers = []
+
 	# train, evaluate, and test random forest
 	rf_train_scores = []
 	rf_test_scores = []
-	for n in xrange(1,20):
+	for n in xrange(16,17):  # initial results show this is the best? PLOT!
 		rf = RandomForestClassifier(n_estimators=n)
 		rf.fit(train_bow_mat,train_bool_responses)
 		rf_train_scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
@@ -295,19 +301,31 @@ def train_classifier(mbox,num_words):
 	# print rf_test_scores
 
 	## SVM Stats
-	print svm_train_scores
-	for x in svm_train_scores:
-		print sum(x) / float(len(x))
+	# print svm_train_scores
+	# for x in svm_train_scores:
+	# 	print sum(x) / float(len(x))
 
-	print svm_test_scores
+	# print svm_test_scores
+	
+	# add classifiers to list
+	classifiers.append(rf)
+	classifiers.append(svm)
 
-	# return rf, global_bow_words
+	return classifiers, global_bow_words
 
 	# n = 6 and 16 are good? (random forest binary classifier)
 	# have to split into test and train better though...
 
 
+def evaluate_classifiers(classifiers,global_bow_words,input_message):
+	
+	# transform input message to matrix
+	input_bow_mat = make_bow_given_dict(input_message, global_bow_words)
 
+	for classifier in classifiers:
+		print classifier.predict(input_bow_mat)
+
+	
 
 
 
