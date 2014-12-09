@@ -356,7 +356,7 @@ def evaluate_classifiers(classifiers,global_bow_words,input_message):
 
 def run_all(mbox,num_words):
 
-	input_message = "hey all i hope you're doing well. please respond to this message at your earliest convenience. scas scas scas scas respond respond respond willy anna long message here please respond respond asap asap asap asap asap why aren't you responding responses give me more data to crunch this classifier really doesn't seem to like short messages don't know what's going on please respond respond respond respond scas scas money budget budget budget hunugry"
+	input_message = "hey all i hope you're doing well. please respond to this message at your earliest convenience. scas scas scas scas respond respond respond willy anna long message here please respond respond asap asap asap asap asap why aren't you responding responses give me more data to crunch this classifier really doesn't seem to like short messages don't know what's going on please respond respond respond respond scas scas money budget budget budget hungry harvard me you you you you email office have at with a in you and of to the the to and of you a in in for scas is this be on if with will are do by director director by do more know harvard our our our important urgent board summer committee questions clients great court them room mailing information dont pbh free pbh hi when small time one hey come would hours people questions service its its its comp comp comp when legal interest guys school join join mail boston message"
 
 	classifiers, global_bow_words = train_classifier(mbox,num_words)
 	evaluate_classifiers(classifiers,global_bow_words,input_message)
