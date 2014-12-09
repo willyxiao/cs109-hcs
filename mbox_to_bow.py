@@ -117,10 +117,10 @@ def split_by_response(mbox):
 			logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
 			continue
 
-	if thread not in mailing_threads:
-		mailing_threads[thread] = []
+		if thread not in mailing_threads:
+			mailing_threads[thread] = []
 
-	mailing_threads[thread].append(msg)
+		mailing_threads[thread].append(msg)
 
 	for i in mailing_threads:
 		if len(mailing_threads[i]) > 1:
@@ -133,4 +133,4 @@ def split_by_response(mbox):
 
 	split = (responded, no_response)
 
-	return mbox
+	return split
