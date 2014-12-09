@@ -128,9 +128,9 @@ def split_by_response(mbox):
 		else:
 			no_response.append(mailing_threads[i])
 
-	responded = sum(responded, [])
-	no_response = sum(no_response, [])
+	#responded = sum(responded, [])
+	#no_response = sum(no_response, [])
 
-	split = (responded, no_response)
+	#split = (responded, no_response)
 
 	return responded
