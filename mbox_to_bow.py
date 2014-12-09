@@ -8,6 +8,11 @@ import collections
 import numpy as np
 import time
 import datetime
+import sklearn
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cross_validation import cross_val_score
+
 
 def make_bow(mbox,num_words):
 	if type(mbox) is str:
@@ -182,17 +187,32 @@ def find_time(mbox):
 
 
 def train_classifier(mbox,num_words):
+	# get data matrices
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
 	times = find_time(mbox)
 	bool_responses = [1 if x > 0 else 0 for x in times]
 	times = [x if x > 0 else float('Inf') for x in times]
 
-	# Made sure the lengths are the same -- entry for each for every email in list
-	print bool_responses
-	print len(bool_responses)
-	print len(times)
-	print len(bow_mat)
+	# transform to np arrays
+	bool_responses = np.array(bool_responses)
+	times = np.array(times)
 
+	# train random forest
+	scores = []
+	for n in xrange(1,5):
+		rf = RandomForestClassifier(n_estimators = n)
+		rf.fit(bow_mat,bool_responses)
+		scores.append(cross_val_score(rf,bow_mat,bool_responses,cv=10))
+
+	fig = plt.figure()
+	fig.add_subplot(1,1,1)
+	fig.set_size_inches(10,10)
+	sns.boxplot(scores)
+	plt.show()
+
+
+
+	
 
 
 
