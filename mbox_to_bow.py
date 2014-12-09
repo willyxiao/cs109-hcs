@@ -275,7 +275,7 @@ def train_classifier(mbox,num_words):
 	for n in xrange(1,20):
 		rf = RandomForestClassifier(n_estimators = n)
 		rf.fit(train_bow_mat,train_bool_responses)
-		scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
+		train_scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
 		test_scores.append(rf.score(test_bow_mat,test_bool_responses))
 
 
