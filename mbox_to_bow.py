@@ -189,7 +189,7 @@ def find_time(mbox):
 def train_classifier(mbox,num_words):
 
 	# split data
-	split = split_body(mbox)
+	split = split_by_response(mbox)
 	num_pos = len(split[0])
 	num_neg = len(split[1])
 	print num_pos
