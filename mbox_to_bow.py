@@ -120,6 +120,7 @@ def make_bow_given_dict(mbox,global_bow_words):
 def make_bow_given_dict_string(input_str,global_bow_words):
 
 	bow_list = []
+	msg_word_dict = dict.fromkeys(global_bow_words,0)
 
 	body = input_str
 	exclamaions = count_exclamations(body)
