@@ -60,7 +60,7 @@ def make_bow(mbox,num_words):
 					msg_word_dict[word] += 1
 		except:
 			logging.error('Could not get body of email' + str(msg['Subject']))
-			bow_list.append(msg_word_dict)  # should be all 0's
+			bow_list.append(msg_word_dict)  # should be all 0's if gets here
 			continue
 
 		bow_list.append(msg_word_dict)
@@ -77,6 +77,40 @@ def make_bow(mbox,num_words):
 
 	# return matrix and list of words
 	return bow_mat, global_bow_words	
+
+
+def make_bow_given_dict(mbox,global_bow_words):
+	bow_list = []
+	for msg in mbox:
+		msg_word_dict = dict.fromkeys(global_bow_words,0)
+		try:
+			body = get_body(msg)
+			exclamaions = count_exclamations(body)
+			body = replace_newlines(body)
+			body = strip_punctuation(delete_nums(body)).lower()
+			split_body = body.split(' ')
+			for word in split_body:
+				if word in msg_word_dict.keys():
+					msg_word_dict[word] += 1
+		except:
+			logging.error('Could not get body of email' + str(msg['Subject']))
+			bow_list.append(msg_word_dict)  # should be all 0's if gets here
+			continue
+
+		bow_list.append(msg_word_dict)
+
+	# print len(bow_list)  # 2033
+
+	bow_mat_list = []
+	for entry in bow_list:
+		bow_mat_list.append(entry.values())
+
+	# big matrix with feature list for each email
+	# rows = emails, columns = words
+	bow_mat = np.array(bow_mat_list)
+
+	# return matrix and list of words
+	return bow_mat
 
 def get_body(msg):
 	body = None
@@ -218,21 +252,32 @@ def train_classifier(mbox,num_words):
 	# print len(test_data)  # 822
 
 	# get data matrices - TRAIN DATA
-	bow_mat, global_bow_words = make_bow(train_data, num_words)
-	times = find_time(train_data)
-	bool_responses = [1 if x > 0 else 0 for x in times]
-	times = [x if x > 0 else float('Inf') for x in times]
+	train_bow_mat, global_bow_words = make_bow(train_data, num_words)
+	train_times = find_time(train_data)
+	train_bool_responses = [1 if x > 0 else 0 for x in train_times]
+	train_times = [x if x > 0 else float('Inf') for x in train_times]
+
+	# get data matrices - TEST DATA
+	test_bow_mat = make_bow_given_dict(test_data, global_bow_words)
+	train_times = find_time(test_data)
+	test_bool_responses = [1 if x > 0 else 0 for x in test_times]
+	test_times = [x if x > 0 else float('Inf') for x in test_times]
 
 	# transform to np arrays
-	bool_responses = np.array(bool_responses)
-	times = np.array(times)
+	train_bool_responses = np.array(train_bool_responses)
+	train_times = np.array(train_times)
+	test_bool_responses = np.array(test_bool_responses)
+	test_times = np.array(test_times)
 
-	# train random forest
-	scores = []
+	# train, evaluate, and test random forest
+	train_scores = []
+	test_scores = []
 	for n in xrange(1,20):
 		rf = RandomForestClassifier(n_estimators = n)
-		rf.fit(bow_mat,bool_responses)
-		scores.append(cross_val_score(rf,bow_mat,bool_responses,cv=10))
+		rf.fit(train_bow_mat,train_bool_responses)
+		scores.append(cross_val_score(rf,train_bow_mat,train_bool_responses,cv=10))
+		test_scores.append(rf.score(test_bow_mat,test_bool_responses))
+
 
 	# fig = plt.figure()
 	# fig.add_subplot(1,1,1)
@@ -240,14 +285,19 @@ def train_classifier(mbox,num_words):
 	# sns.boxplot(scores)
 	# plt.show()
 
-	print scores
-	for x in scores:
+	# print train_scores
+	# for x in train_scores:
+	# 	print sum(x) / float(len(x))
+
+	print test_scores
+	for x in test_scores:
 		print sum(x) / float(len(x))
 
 	# n = 6 and 16 are good? (random forest binary classifier)
 	# have to split into test and train better though...
 
 	# now evaluate on TEST DATA
+
 
 
 
