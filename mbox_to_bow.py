@@ -201,9 +201,11 @@ def train_classifier(mbox,num_words):
 	print pos_split_idx
 	print neg_split_idx
 
-	# shuffle data
-	pos_data = random.shuffle(split[0])
-	neg_data = random.shuffle(split[1])
+	# shuffle data - random.shuffle is in place
+	pos_data = split[0]
+	neg_data = split[1]
+	random.shuffle(pos_data)
+	random.shuffle(neg_data)
 
 	# split data
 	train_pos = pos_data[:pos_split_idx]
