@@ -117,6 +117,26 @@ def make_bow_given_dict(mbox,global_bow_words):
 	# return matrix and list of words
 	return bow_mat
 
+def make_bow_given_dict_string(input_str,global_bow_words):
+
+	bow_list = []
+
+	body = input_str
+	exclamaions = count_exclamations(body)
+	body = replace_newlines(body)
+	body = strip_punctuation(delete_nums(body)).lower()
+	split_body = body.split(' ')
+	for word in split_body:
+		if word in msg_word_dict.keys():
+			msg_word_dict[word] += 1
+
+	bow_list.append(msg_word_dict)
+
+	bow_mat = np.array(bow_list)
+
+	return bow_mat
+
+
 def get_body(msg):
 	body = None
 	# step through until not multipart; take that part as text
@@ -320,12 +340,12 @@ def train_classifier(mbox,num_words):
 def evaluate_classifiers(classifiers,global_bow_words,input_message):
 	
 	# transform input message to matrix
-	input_bow_mat = make_bow_given_dict(input_message, global_bow_words)
+	input_bow_mat = make_bow_given_dict_string(input_message, global_bow_words)
 
 	for classifier in classifiers:
 		print classifier.predict(input_bow_mat)
 
-	
+
 
 
 
