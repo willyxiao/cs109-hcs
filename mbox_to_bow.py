@@ -5,8 +5,10 @@ import pdb
 import math
 import logging
 import collections
+import matplotlib.pyplot as plt
+import seaborn
 
-def make_bow(mbox):
+def make_bow(mbox):#,num_words):
 	if type(mbox) is str:
 		mbox = mailbox.mbox(mbox)
 
@@ -23,16 +25,20 @@ def make_bow(mbox):
 			body = strip_punctuation(delete_nums(body)).lower()
 			# split on spaces
 			split_body = body.split(' ')
-			# bow = collections.Counter(split_body)
-			# global_bow = collections.Counter(bow,global_bow)
 			global_text = global_text + split_body
-			global_bow = collections.Counter(global_text)
-			print global_bow
-			# strip punctuation after counting exclamations
-			# lowercase everything
 		except:
 			logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
+
+	global_bow = collections.Counter(global_text)
+	print len(global_bow)
+	# global_bow_top = global_bow.most_common(num_words)
+
+	# return global_bow
+
+	# then from this get set of words
+	# cull down each individual email to that set
+	# then analyze / train on stuff later?
 
 def get_body(msg):
 	body = None
