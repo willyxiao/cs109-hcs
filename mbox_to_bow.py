@@ -5,7 +5,7 @@ import pdb
 import math
 import logging
 import collections
-import numpy as np
+import numpy as npmnt/
 
 def make_bow(mbox,num_words):
 	if type(mbox) is str:
@@ -65,6 +65,9 @@ def make_bow(mbox,num_words):
 	# big matrix with feature list for each email
 	# rows = emails, columns = words
 	bow_mat = np.array(bow_mat_list)
+
+	# Willy's results: make sure to map negative numbers to infinity as well
+	# Map 0's to Inf in Python
 	
 
 def get_body(msg):
