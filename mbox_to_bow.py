@@ -5,7 +5,7 @@ import pdb
 import math
 import logging
 import collections
-import numpy as npmnt/
+import numpy as np
 
 def make_bow(mbox,num_words):
 	if type(mbox) is str:
