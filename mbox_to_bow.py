@@ -54,6 +54,7 @@ def make_bow(mbox,num_words):
 					msg_word_dict[word] += 1
 		except:
 			logging.error('Could not get body of email' + str(msg['Subject']))
+			bow_list.append(msg_word_dict)  # should be all 0's
 			continue
 
 		bow_list.append(msg_word_dict)
@@ -183,6 +184,7 @@ def find_time(mbox):
 def train_classifier(mbox,num_words):
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
 	times = find_time(mbox)
+
 	print len(times)
 	print len(bow_mat)
 
