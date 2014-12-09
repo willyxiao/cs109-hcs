@@ -347,10 +347,9 @@ def evaluate_classifiers(classifiers,global_bow_words,input_message):
 		print classifier.predict(input_bow_mat)
 
 
-
-
-
-
+def run_all(mbox,num_words):
+	classifiers, global_bow_words = train_classifier(mbox,num_words)
+	evaluate_classifiers(classifiers,global_bow_words,'please respond to this message, thanks!')
 
 
 
