@@ -6,7 +6,7 @@ import math
 import logging
 import collections
 
-def make_bow(mbox):#,num_words):
+def make_bow(mbox,num_words):
 	if type(mbox) is str:
 		mbox = mailbox.mbox(mbox)
 
@@ -29,8 +29,11 @@ def make_bow(mbox):#,num_words):
 			continue
 
 	global_bow = collections.Counter(global_text)
-	print len(global_bow)
-	# global_bow_top = global_bow.most_common(num_words)
+	# 14677 unique words
+	global_bow_top = global_bow.most_common(num_words)
+
+	global_bow_words = [x[1] for x in global_bow_words]
+	print global_bow_words
 
 	# return global_bow
 
