@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo "starting client..."
-mincemeat.py -p hello 10.102.75.2 &
-echo "started"
-exit 0
-
