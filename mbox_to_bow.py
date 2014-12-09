@@ -9,6 +9,7 @@ import numpy as np
 import time
 import datetime
 import sklearn
+import random
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import cross_val_score
