@@ -5,6 +5,7 @@ import pdb
 import math
 import logging
 import collections
+import numpy as np
 
 def make_bow(mbox,num_words):
 	if type(mbox) is str:
@@ -35,7 +36,7 @@ def make_bow(mbox,num_words):
 	global_bow_words = [x[0] for x in global_bow_top]
 
 	# get dictionary of all words in order with 0's
-	viable_word_dict = dict.fromkeys(global_bow_words,0)
+	# viable_word_dict = dict.fromkeys(global_bow_words,0)
 
 	bow_list = []
 	for msg in mbox:
@@ -55,19 +56,16 @@ def make_bow(mbox,num_words):
 
 		bow_list.append(msg_word_dict)
 
-	# print bow_list
 	# print len(bow_list)  # 2033
 
-	bow_mat = []
+	bow_mat_list = []
 	for entry in bow_list:
-		bow_mat.append(entry.values())
+		bow_mat_list.append(entry.values())
 
-	print bow_mat
-	print len(bow_mat)
-
-
-	# cull down each individual email to that set
-	# then analyze / train on stuff later?
+	# big matrix with feature list for each email
+	# rows = emails, columns = words
+	bow_mat = np.array(bow_mat_list)
+	
 
 def get_body(msg):
 	body = None
@@ -130,9 +128,9 @@ def split_by_response(mbox):
 		else:
 			no_response.append(mailing_threads[i])
 
-	responded = sum(responded, [])
-	no_response = sum(no_response, [])
+	#responded = sum(responded, [])
+	#no_response = sum(no_response, [])
 
-	split = (responded, no_response)
+	#split = (responded, no_response)
 
-	return split
+	return responded
