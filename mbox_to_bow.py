@@ -346,15 +346,17 @@ def evaluate_classifiers(classifiers,global_bow_words,input_message):
 	
 	# transform input message to matrix
 	input_bow_mat = make_bow_given_dict_string(input_message, global_bow_words)
-	print input_bow_mat
 
 	for classifier in classifiers:
 		print classifier.predict(input_bow_mat)
 
 
 def run_all(mbox,num_words):
+
+	input_message = "hey all i hope you're doing well. please respond to this message at your earliest convenience. scas scas scas scas respond respond respond willy anna long message here please respond respond asap asap asap asap asap why aren't you responding responses give me more data to crunch this classifier really doesn't seem to like short messages don't know what's going on please respond respond respond respond scas scas money budget budget budget hunugry"
+
 	classifiers, global_bow_words = train_classifier(mbox,num_words)
-	evaluate_classifiers(classifiers,global_bow_words,'please respond to this message, thanks!')
+	evaluate_classifiers(classifiers,global_bow_words,input_message)
 
 
 
