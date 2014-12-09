@@ -31,7 +31,9 @@ def make_bow(mbox,num_words):
 	global_bow = collections.Counter(global_text)
 	# 14677 unique words
 	global_bow_top = global_bow.most_common(num_words)
-	print global_bow_top
+
+	global_bow_words = global_bow_top.get
+	print global_bow_words
 
 	# return global_bow
 
