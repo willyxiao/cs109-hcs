@@ -133,7 +133,11 @@ def make_bow_given_dict_string(input_str,global_bow_words):
 
 	bow_list.append(msg_word_dict)
 
-	bow_mat = np.array(bow_list)
+	bow_mat_list = []
+	for entry in bow_list:
+		bow_mat_list.append(entry.values())
+
+	bow_mat = np.array(bow_mat_list)
 
 	return bow_mat
 
