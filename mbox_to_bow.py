@@ -198,8 +198,6 @@ def train_classifier(mbox,num_words):
 	# print num_neg  # 1441 scas
 	pos_split_idx = int(num_pos * split_pct)
 	neg_split_idx = int(num_neg * split_pct)
-	print pos_split_idx
-	print neg_split_idx
 
 	# shuffle data - random.shuffle is in place
 	pos_data = split[0]
@@ -216,14 +214,12 @@ def train_classifier(mbox,num_words):
 	train_data = train_pos + train_neg
 	test_data = test_pos + test_neg
 
-	print len(train_data)
-	print len(test_data)
+	# print len(train_data)  # 1230
+	# print len(test_data)  # 822
 
-	return
-
-	# get data matrices
-	bow_mat, global_bow_words = make_bow(mbox, num_words)
-	times = find_time(mbox)
+	# get data matrices - TRAIN DATA
+	bow_mat, global_bow_words = make_bow(train_data, num_words)
+	times = find_time(train_data)
 	bool_responses = [1 if x > 0 else 0 for x in times]
 	times = [x if x > 0 else float('Inf') for x in times]
 
@@ -250,6 +246,8 @@ def train_classifier(mbox,num_words):
 
 	# n = 6 and 16 are good? (random forest binary classifier)
 	# have to split into test and train better though...
+
+	# now evaluate on TEST DATA
 
 
 
