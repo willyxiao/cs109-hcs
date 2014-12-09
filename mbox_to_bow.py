@@ -32,7 +32,7 @@ def make_bow(mbox,num_words):
 	# 14677 unique words
 	global_bow_top = global_bow.most_common(num_words)
 
-	global_bow_words = global_bow_top.get
+	global_bow_words = [x[1] for x in global_bow_words]
 	print global_bow_words
 
 	# return global_bow
