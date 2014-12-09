@@ -204,11 +204,15 @@ def train_classifier(mbox,num_words):
 		rf.fit(bow_mat,bool_responses)
 		scores.append(cross_val_score(rf,bow_mat,bool_responses,cv=10))
 
-	fig = plt.figure()
-	fig.add_subplot(1,1,1)
-	fig.set_size_inches(10,10)
-	sns.boxplot(scores)
-	plt.show()
+	# fig = plt.figure()
+	# fig.add_subplot(1,1,1)
+	# fig.set_size_inches(10,10)
+	# sns.boxplot(scores)
+	# plt.show()
+
+	print scores
+	for x in scores:
+		print sum(x) / float(len(x))
 
 
 
