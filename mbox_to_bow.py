@@ -6,6 +6,8 @@ import math
 import logging
 import collections
 import numpy as np
+import time
+import datetime
 
 def make_bow(mbox,num_words):
 	if type(mbox) is str:
@@ -66,9 +68,8 @@ def make_bow(mbox,num_words):
 	# rows = emails, columns = words
 	bow_mat = np.array(bow_mat_list)
 
-	# Willy's results: make sure to map negative numbers to infinity as well
-	# Map 0's to Inf in Python
-	
+	# return matrix and list of words
+	return bow_mat, global_bow_words	
 
 def get_body(msg):
 	body = None
@@ -137,3 +138,50 @@ def split_by_response(mbox):
 	split = (responded, no_response)
 
 	return split
+
+
+def find_time(mbox):
+
+	if type(mbox) is str:
+		mbox = mailbox.mbox(mbox)
+
+	pattern = "^(\[.+\]|\s|Re:|Fwd:)+"
+
+	mailing_threads = {}
+	emails = []
+
+	for msg in mbox:
+		emails.append(0)
+
+		try:
+			thread = re.sub(pattern, "", msg["Subject"])
+		except:
+			logging.error("Could not parse subject " + str(msg['Subject']))
+			continue
+
+		try:
+			email_time = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
+		except:
+			logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
+			continue
+
+		if thread not in mailing_threads:
+			mailing_threads[thread] = []
+		else:
+			previous_email = mailing_threads[thread][len(mailing_threads[thread]) - 1]
+			try:
+				emails[previous_email[0]] = (email_time - previous_email[1]).total_seconds()
+			except:
+				logging.error("Issue updating email time")
+				continue
+
+		mailing_threads[thread].append((len(emails) - 1, email_time))
+
+	return emails
+
+
+def train_classifier(mbox,num_words):
+	bow_mat, global_bow_words = make_bow(mbox, num_words)
+	times = find_time(mbox)
+	print times
+
