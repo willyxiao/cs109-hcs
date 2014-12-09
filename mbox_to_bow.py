@@ -184,10 +184,12 @@ def find_time(mbox):
 def train_classifier(mbox,num_words):
 	bow_mat, global_bow_words = make_bow(mbox, num_words)
 	times = find_time(mbox)
+	bool_responses = [1 if x > 0 else 0 for x in times]
 	times = [x if x > 0 else float('Inf') for x in times]
 
 	# Made sure the lengths are the same -- entry for each for every email in list
-	print times
+	print bool_responses
+	print len(bool_responses)
 	print len(times)
 	print len(bow_mat)
 
