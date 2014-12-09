@@ -56,11 +56,14 @@ def make_bow(mbox,num_words):
 		bow_list.append(msg_word_dict)
 
 	# print bow_list
-	print len(bow_list)
+	# print len(bow_list)  # 2033
 
-	# print msg_word_dict
+	bow_mat = []
+	for entry in bow_list:
+		bow_mat.append(entry.values())
 
-	# make matrix
+	print bow_mat
+	print len(bow_mat)
 
 
 	# cull down each individual email to that set
