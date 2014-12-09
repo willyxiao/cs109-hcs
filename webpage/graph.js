@@ -27,7 +27,7 @@ svg.append("defs")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
-d3.json("hcs-board.json", function(error, data) {
+d3.json("scas-list.json", function(error, data) {
   graph_data = data;
 
   // loop through keys in graph_data
