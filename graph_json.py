@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import json
 import mbox_to_graph
 import sys
@@ -9,10 +10,7 @@ outpath = "webpage/"
 # takes the name of the list (i.e. without the '/mnt/archives/')
 def create_json(mlist, year):
   full_path = inpath + mlist + ".mbox"
-  print full_path
-  print year
   data = mbox_to_graph.make_graph(full_path, year)
-  print data
   with open(outpath + "{0}-{1}.json".format(mlist, year), "w") as outfile:
     json.dump(data, outfile)
 

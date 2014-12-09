@@ -8,9 +8,10 @@ import math
 import logging
 
 def make_graph(mbox, year):
-  print "starting"
   if type(mbox) is str:
     mbox = mailbox.mbox(mbox)
+
+  year = int(year)
 
   pattern = "^(\[.+\]|\s|Re:|Fwd:)+"
 
