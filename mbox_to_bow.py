@@ -290,8 +290,6 @@ def train_classifier(mbox,num_words):
 	# 	print sum(x) / float(len(x))
 
 	print test_scores
-	for x in test_scores:
-		print sum(x) / float(len(x))
 
 	# n = 6 and 16 are good? (random forest binary classifier)
 	# have to split into test and train better though...
