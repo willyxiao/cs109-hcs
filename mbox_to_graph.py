@@ -11,6 +11,8 @@ def make_graph(mbox, year):
   if type(mbox) is str:
     mbox = mailbox.mbox(mbox)
 
+  year = int(year)
+
   pattern = "^(\[.+\]|\s|Re:|Fwd:)+"
 
   graph = {}

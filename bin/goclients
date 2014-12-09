@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cat mrjobclient | ssh root@208.43.122.14 'bash -s'
-cat mrjobclient | ssh root@208.43.122.10 'bash -s'
-cat mrjobclient | ssh root@208.43.122.11 'bash -s'
-cat mrjobclient | ssh root@208.43.122.12 'bash -s'
-
