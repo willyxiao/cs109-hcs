@@ -39,7 +39,7 @@ def make_bow(mbox,num_words):
 
 	bow_list = []
 	for msg in mbox:
-		msg_word_dict = viable_word_dict
+		msg_word_dict = dict.fromkeys(global_bow_words,0)
 		try:
 			body = get_body(msg)
 			exclamaions = count_exclamations(body)
@@ -47,7 +47,7 @@ def make_bow(mbox,num_words):
 			body = strip_punctuation(delete_nums(body)).lower()
 			split_body = body.split(' ')
 			for word in split_body:
-				if word in viable_word_dict.keys():
+				if word in msg_word_dict.keys():
 					msg_word_dict[word] += 1
 		except:
 			logging.error('Could not get body of email' + str(msg['Subject']))
