@@ -38,14 +38,10 @@ def make_bow(mbox,num_words):
 			logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
-	global_bow = collections.Counter(global_text)
-	# 14677 unique words
+	global_bow = collections.Counter(global_text)  # 14677 unique words
 	global_bow_top = global_bow.most_common(num_words)
 
 	global_bow_words = [x[0] for x in global_bow_top]
-
-	# get dictionary of all words in order with 0's
-	# viable_word_dict = dict.fromkeys(global_bow_words,0)
 
 	bow_list = []
 	for msg in mbox:
@@ -65,8 +61,6 @@ def make_bow(mbox,num_words):
 			continue
 
 		bow_list.append(msg_word_dict)
-
-	# print len(bow_list)  # 2033
 
 	bow_mat_list = []
 	for entry in bow_list:
@@ -103,8 +97,6 @@ def make_bow_given_dict(mbox,global_bow_words):
 			continue
 
 		bow_list.append(msg_word_dict)
-
-	# print len(bow_list)  # 2033
 
 	bow_mat_list = []
 	for entry in bow_list:
@@ -169,13 +161,6 @@ def delete_nums(body):
 
 def replace_newlines(body):
 	return body.replace('\n',' ')
-
-def zipngram(words, n):
-    # words = text.split()
-    return zip(*[words[i:] for i in range(n)])
-
-def collatengrams(ngrams):
-	return [' '.join(x) for x in ngrams]
 
 def split_by_response(mbox):
 	if type(mbox) is str:
@@ -265,8 +250,6 @@ def train_classifier(mbox,num_words):
 	split = split_by_response(mbox)
 	num_pos = len(split[0])
 	num_neg = len(split[1])
-	# print num_pos  # 611 scas
-	# print num_neg  # 1441 scas
 	pos_split_idx = int(num_pos * split_pct)
 	neg_split_idx = int(num_neg * split_pct)
 
@@ -291,9 +274,6 @@ def train_classifier(mbox,num_words):
 	train_labels = train_pos_labels + train_neg_labels
 	test_labels = test_pos_labels + test_neg_labels
 
-	# print len(train_data)  # 1230
-	# print len(test_data)  # 822
-
 	# get data matrices - TRAIN DATA
 	train_bow_mat, global_bow_words = make_bow(train_data, num_words)
 	train_times = find_time(train_data)
@@ -307,13 +287,10 @@ def train_classifier(mbox,num_words):
 	test_times = [x if x > 0 else float('Inf') for x in test_times]
 
 	# transform to np arrays
-	train_bool_responses = np.array(train_bool_responses)
+	# train_bool_responses = np.array(train_bool_responses)
 	train_times = np.array(train_times)
-	test_bool_responses = np.array(test_bool_responses)
+	# test_bool_responses = np.array(test_bool_responses)
 	test_times = np.array(test_times)
-
-	### Not sure if Willy's function returns the correct thing for list of emails
-	### Going to use test_bools and train_bools instead of _responses for now
 	train_bool_responses = np.array(train_labels)
 	test_bool_responses = np.array(test_labels)
 
@@ -359,9 +336,6 @@ def train_classifier(mbox,num_words):
 	classifiers.append(svm)
 
 	return classifiers, global_bow_words
-
-	# n = 6 and 16 are good? (random forest binary classifier)
-	# have to split into test and train better though...
 
 
 def evaluate_classifiers(classifiers,global_bow_words,input_message):
