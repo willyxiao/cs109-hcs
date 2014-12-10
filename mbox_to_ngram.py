@@ -35,12 +35,13 @@ def make_ngram(mbox,num_words,n):
 			split_body = body.split(' ')
 			n_grams = process_ngrams(split_body,n)
 			global_ngrams = global_ngrams + n_grams
-			print global_ngrams
 		except:
 			#logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
+	print global_ngrams
 	global_ngrams = collections.Counter(global_ngrams)
+	print global_ngrams
 	global_ngrams_top = global_ngrams.most_common(num_words)
 	# print global_ngrams_top
 	global_ngrams_words = [x[0] for x in global_ngrams_top]
