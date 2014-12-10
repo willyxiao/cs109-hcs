@@ -323,7 +323,7 @@ def train_classifier(mbox,num_words,n):
 	### Not sure if Willy's function returns the correct thing for list of emails
 	### Going to use test_bools and train_bools instead of _responses for now
 	train_bool_responses = np.array(train_labels)
-	train_weights = train_bool_responses * 100 # + 1  # should be 2's and 1's
+	train_weights = train_bool_responses + 1  # should be 2's and 1's
 	test_bool_responses = np.array(test_labels)
 
 	classifiers = []
@@ -345,7 +345,7 @@ def train_classifier(mbox,num_words,n):
 	# train, evaluate, and test SVM
 	svm_train_scores = []
 	svm_test_scores = []
-	svm = SVC(C=1.0,kernel='linear',probability=False,class_weight='auto')  # change probability to True?
+	svm = SVC(C=1.0,kernel='linear',probability=True,class_weight='auto')  # change probability to True?
 	svm.fit(train_ngram_mat,train_bool_responses)
 	svm_train_scores.append(cross_val_score(svm,train_ngram_mat,train_bool_responses,cv=10))
 	svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
