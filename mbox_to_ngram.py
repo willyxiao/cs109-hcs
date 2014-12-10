@@ -321,9 +321,9 @@ def train_classifier(mbox,num_words):
 
 	classifiers = []
 
-	print train_ngrams_mat
-	print len(train_ngrams_mat)
-	print np.amax(train_ngrams_mat)
+	print train_ngram_mat
+	print len(train_ngram_mat)
+	print np.amax(train_ngram_mat)
 
 	return
 
