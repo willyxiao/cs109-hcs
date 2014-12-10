@@ -184,7 +184,7 @@ def replace_newlines(body):
 def process_ngrams(words, n):
     # words = text.split()
     ngrams = zip(*[words[i:] for i in range(n)])
-    return [' '.join(x) for x in ngrams]
+    return [''.join(x) for x in ngrams]
 
 def split_by_response(mbox):
 	if type(mbox) is str:
