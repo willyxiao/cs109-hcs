@@ -274,9 +274,15 @@ def train_classifier(mbox,num_words):
 	train_neg = neg_data[:neg_split_idx]
 	test_pos = pos_data[pos_split_idx:]
 	test_neg = neg_data[neg_split_idx:]
+	train_pos_labels = [1]*len(train_pos)
+	train_neg_labels = [0]*len(train_neg)
+	test_pos_labels = [1]*len(test_pos)
+	test_neg_labels = [0]*len(test_neg)
 
 	train_data = train_pos + train_neg
 	test_data = test_pos + test_neg
+	train_labels = train_pos_labels + train_neg_labels
+	test_labels = test_pos_labels + test_neg_labels
 
 	# print len(train_data)  # 1230
 	# print len(test_data)  # 822
@@ -298,6 +304,11 @@ def train_classifier(mbox,num_words):
 	train_times = np.array(train_times)
 	test_bool_responses = np.array(test_bool_responses)
 	test_times = np.array(test_times)
+	
+	### Not sure if Willy's function returns the correct thing for list of emails
+	### Going to use test_bools and train_bools instead of _responses for now
+	train_bool_responses = np.array(train_labels)
+	test_bool_responses = np.array(test_labels)
 
 	classifiers = []
 
@@ -319,16 +330,16 @@ def train_classifier(mbox,num_words):
 	svm_test_scores.append(svm.score(test_bow_mat,test_bool_responses))
 
 	## Random Forest Stats
-	# print rf_train_scores
-	# for x in rf_train_scores:
-	# 	print sum(x) / float(len(x))
+	print rf_train_scores
+	for x in rf_train_scores:
+		print sum(x) / float(len(x))
 
 	# print rf_test_scores
 
 	## SVM Stats
-	# print svm_train_scores
-	# for x in svm_train_scores:
-	# 	print sum(x) / float(len(x))
+	print svm_train_scores
+	for x in svm_train_scores:
+		print sum(x) / float(len(x))
 
 	# print svm_test_scores
 	print rf.predict(test_bow_mat)
