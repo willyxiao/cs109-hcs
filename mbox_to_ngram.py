@@ -70,7 +70,7 @@ def make_ngram(mbox,num_words,n):
 
 	# print len(ngram_list)  # 2033
 	# print ngram_list
-	print msg_ngram_dict
+	# print msg_ngram_dict
 
 	ngram_mat_list = []
 	for entry in ngram_list:
@@ -84,9 +84,7 @@ def make_ngram(mbox,num_words,n):
 	return ngram_mat, global_ngrams_words	
 
 
-def make_ngram_given_dict(mbox,global_ngrams_words):
-
-	n = len(str.split(global_ngrams_words[0]))
+def make_ngram_given_dict(mbox,global_ngrams_words,n):
 
 	if type(mbox) is str:
 		mbox = mailbox.mbox(mbox)
@@ -124,9 +122,7 @@ def make_ngram_given_dict(mbox,global_ngrams_words):
 	# return matrix
 	return ngram_mat
 
-def make_ngram_given_dict_string(input_str,global_ngrams_words):
-
-	n = len(str.split(global_ngrams_words[0]))
+def make_ngram_given_dict_string(input_str,global_ngrams_words,n):
 
 	ngram_list = []
 	msg_ngram_dict = dict.fromkeys(global_ngrams_words,0)
@@ -303,14 +299,14 @@ def train_classifier(mbox,num_words,n):
 
 	# get data matrices - TRAIN DATA
 	train_ngram_mat, global_ngrams_words = make_ngram(train_data, num_words, n)
-	print train_ngram_mat
+	print np.amax(train_ngram_mat)
 	train_times = find_time(train_data)
 	train_bool_responses = [1 if x > 0 else 0 for x in train_times]
 	train_times = [x if x > 0 else float('Inf') for x in train_times]
 
 	# get data matrices - TEST DATA
-	test_ngram_mat = make_ngram_given_dict(test_data, global_ngrams_words)
-	print test_ngram_mat
+	test_ngram_mat = make_ngram_given_dict(test_data, global_ngrams_words, n)
+	print np.amax(test_ngram_mat)
 	test_times = find_time(test_data)
 	test_bool_responses = [1 if x > 0 else 0 for x in test_times]
 	test_times = [x if x > 0 else float('Inf') for x in test_times]
@@ -352,20 +348,20 @@ def train_classifier(mbox,num_words,n):
 	svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
 
 	## Random Forest Stats
-	# print rf_train_scores
-	# for x in rf_train_scores:
-	# 	print sum(x) / float(len(x))
+	print rf_train_scores
+	for x in rf_train_scores:
+		print sum(x) / float(len(x))
 
-	# print rf_test_scores
+	print rf_test_scores
 
 	## SVM Stats
-	# print svm_train_scores
-	# for x in svm_train_scores:
-	# 	print sum(x) / float(len(x))
+	print svm_train_scores
+	for x in svm_train_scores:
+		print sum(x) / float(len(x))
 
-	# print svm_test_scores
-	# print rf.predict(test_ngram_mat)
-	# print svm.predict(test_ngram_mat)
+	print svm_test_scores
+	print rf.predict(test_ngram_mat)
+	print svm.predict(test_ngram_mat)
 	
 	# add classifiers to list
 
@@ -383,7 +379,7 @@ def train_classifier(mbox,num_words,n):
 def evaluate_classifiers(classifiers,global_ngrams_words,input_message):
 	
 	# transform input message to matrix
-	input_bow_mat = make_ngram_given_dict_string(input_message, global_ngrams_words)
+	input_bow_mat = make_ngram_given_dict_string(input_message, global_ngrams_words, n)
 	# print input_bow_mat
 
 	for classifier in classifiers:
