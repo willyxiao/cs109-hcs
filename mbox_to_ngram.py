@@ -321,6 +321,12 @@ def train_classifier(mbox,num_words):
 
 	classifiers = []
 
+	print train_ngrams_mat
+	print len(train_ngrams_mat)
+	print np.amax(train_ngrams_mat)
+
+	return
+
 	# train, evaluate, and test random forest
 	rf_train_scores = []
 	rf_test_scores = []
