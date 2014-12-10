@@ -35,12 +35,12 @@ def make_ngram(mbox,num_words,n):
 			split_body = body.split(' ')
 			n_grams = process_ngrams(split_body,n)
 			global_ngrams = global_ngrams + n_grams
+			print global_ngrams
 		except:
-			logging.error('Could not get body of email' + str(msg['Subject']))
+			#logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
 	global_ngrams = collections.Counter(global_ngrams)
-	# 14677 unique words
 	global_ngrams_top = global_ngrams.most_common(num_words)
 	# print global_ngrams_top
 	global_ngrams_words = [x[0] for x in global_ngrams_top]
@@ -64,7 +64,7 @@ def make_ngram(mbox,num_words,n):
 				if word in msg_ngram_dict.keys():
 					msg_ngram_dict[ngram] += 1
 		except:
-			logging.error('Could not get body of email' + str(msg['Subject']))
+			#logging.error('Could not get body of email' + str(msg['Subject']))
 			ngram_list.append(msg_ngram_dict)  # should be all 0's if gets here
 			continue
 
@@ -106,7 +106,7 @@ def make_ngram_given_dict(mbox,global_ngrams_words):
 				if ngram in msg_ngram_dict.keys():
 					msg_ngram_dict[ngram] += 1
 		except:
-			logging.error('Could not get body of email' + str(msg['Subject']))
+			#logging.error('Could not get body of email' + str(msg['Subject']))
 			ngram_list.append(msg_ngram_dict)  # should be all 0's if gets here
 			continue
 
@@ -198,13 +198,13 @@ def split_by_response(mbox):
 		try:
 			thread = re.sub(pattern, "", msg["Subject"])
 		except:
-			logging.error("Could not parse subject " + str(msg['Subject']))
+			#logging.error("Could not parse subject " + str(msg['Subject']))
 			continue
 
 		try:
 			A_email = email.utils.parseaddr(msg['From'])[1]
 		except:
-			logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
+			#logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
 			continue
 
 		if thread not in mailing_threads:
@@ -242,13 +242,13 @@ def find_time(mbox):
 		try:
 			thread = re.sub(pattern, "", msg["Subject"])
 		except:
-			logging.error("Could not parse subject " + str(msg['Subject']))
+			#logging.error("Could not parse subject " + str(msg['Subject']))
 			continue
 
 		try:
 			email_time = datetime.datetime.fromtimestamp(time.mktime(email.utils.parsedate(msg['Date'])))
 		except:
-			logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
+			#logging.error("Could not parse date or email: " + str(msg['Date']) + ", " + msg['From'])
 			continue
 
 		if thread not in mailing_threads:
@@ -258,7 +258,7 @@ def find_time(mbox):
 			try:
 				emails[previous_email[0]] = (email_time - previous_email[1]).total_seconds()
 			except:
-				logging.error("Issue updating email time")
+				#logging.error("Issue updating email time")
 				continue
 
 		mailing_threads[thread].append((len(emails) - 1, email_time))
