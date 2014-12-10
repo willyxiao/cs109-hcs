@@ -39,13 +39,10 @@ def make_ngram(mbox,num_words,n):
 			#logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
-	print global_ngrams
 	global_ngrams = collections.Counter(global_ngrams)
-	print global_ngrams
 	global_ngrams_top = global_ngrams.most_common(num_words)
 	# print global_ngrams_top
 	global_ngrams_words = [x[0] for x in global_ngrams_top]
-	print global_ngrams_words
 
 	# get dictionary of all words in order with 0's
 	# viable_word_dict = dict.fromkeys(global_ngrams_words,0)
@@ -63,6 +60,7 @@ def make_ngram(mbox,num_words,n):
 
 			for ngram in ngrams:
 				if word in msg_ngram_dict.keys():
+					print 'word in dict'
 					msg_ngram_dict[ngram] += 1
 		except:
 			#logging.error('Could not get body of email' + str(msg['Subject']))
