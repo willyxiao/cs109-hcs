@@ -33,18 +33,18 @@ def make_ngram(mbox,num_words,n):
 			body = strip_punctuation(delete_nums(body)).lower()
 			# split on spaces
 			split_body = body.split(' ')
-			ngrams = process_ngrams(split_body,n)
+			n_grams = process_ngrams(split_body,n)
 			global_ngrams = global_ngrams + n_grams
 		except:
-			logging.error('Could not get body of email' + str(msg['Subject']))
+			#logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
 	global_ngrams = collections.Counter(global_ngrams)
 	# 14677 unique words
 	global_ngrams_top = global_ngrams.most_common(num_words)
-	print global_ngrams_top
+	# print global_ngrams_top
 	global_ngrams_words = [x[0] for x in global_ngrams_top]
-	print global_ngrams_words
+	# print global_ngrams_words
 
 	# get dictionary of all words in order with 0's
 	# viable_word_dict = dict.fromkeys(global_ngrams_words,0)
@@ -71,7 +71,7 @@ def make_ngram(mbox,num_words,n):
 		ngram_list.append(msg_ngram_dict)
 
 	# print len(ngram_list)  # 2033
-	print ngram_list
+	# print ngram_list
 
 	ngram_mat_list = []
 	for entry in ngram_list:
