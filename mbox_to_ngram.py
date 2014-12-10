@@ -56,11 +56,10 @@ def make_ngram(mbox,num_words,n):
 			body = replace_newlines(body)
 			body = strip_punctuation(delete_nums(body)).lower()
 			split_body = body.split(' ')
-			ngrams = process_ngrams(split_body,n)
+			n_grams = process_ngrams(split_body,n)
 
-			for ngram in ngrams:
-				if word in msg_ngram_dict.keys():
-					print 'word in dict'
+			for ngram in n_grams:
+				if ngram in msg_ngram_dict.keys():
 					msg_ngram_dict[ngram] += 1
 		except:
 			#logging.error('Could not get body of email' + str(msg['Subject']))
@@ -71,6 +70,7 @@ def make_ngram(mbox,num_words,n):
 
 	# print len(ngram_list)  # 2033
 	# print ngram_list
+	print msg_ngram_dict
 
 	ngram_mat_list = []
 	for entry in ngram_list:
