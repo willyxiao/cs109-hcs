@@ -383,6 +383,7 @@ def evaluate_classifiers(classifiers,global_ngrams_words,input_message):
 	
 	# transform input message to matrix
 	input_bow_mat = make_ngram_given_dict_string(input_message, global_ngrams_words)
+	print input_bow_mat
 
 	for classifier in classifiers:
 		print classifier.predict(input_bow_mat)
