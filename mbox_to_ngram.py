@@ -44,7 +44,7 @@ def make_ngram(mbox,num_words,n):
 	global_ngrams_top = global_ngrams.most_common(num_words)
 	# print global_ngrams_top
 	global_ngrams_words = [x[0] for x in global_ngrams_top]
-	# print global_ngrams_words
+	print global_ngrams_words
 
 	# get dictionary of all words in order with 0's
 	# viable_word_dict = dict.fromkeys(global_ngrams_words,0)
