@@ -83,6 +83,21 @@ hr{
 
 
 /* Styles for graph */
+.graph-row>div {
+  display: inline-block;
+  width: 600px;
+  height: 400px;
+}
+
+.graph-row .title {
+  text-align: center;
+}
+
+.graph-row .network-graph {
+  width: 600px;
+  height: 350px;
+}
+
 .link {
   fill: none;
   stroke: #666;
