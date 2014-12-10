@@ -278,16 +278,11 @@ def train_classifier(mbox,num_words,n):
 	pos_split_idx = int(num_pos * split_pct)
 	neg_split_idx = int(num_neg * split_pct)
 
-	print '1'
-
 	# shuffle data - random.shuffle is in place
 	pos_data = split[0]
 	neg_data = split[1]
 	random.shuffle(pos_data)
 	random.shuffle(neg_data)
-
-	print '2'
-
 
 	# split data
 	train_pos = pos_data[:pos_split_idx]
@@ -299,14 +294,10 @@ def train_classifier(mbox,num_words,n):
 	test_pos_labels = [1]*len(test_pos)
 	test_neg_labels = [0]*len(test_neg)
 	
-	print '3'
-
 	train_data = train_pos + train_neg
 	test_data = test_pos + test_neg
 	train_labels = train_pos_labels + train_neg_labels
 	test_labels = test_pos_labels + test_neg_labels
-
-	print '4'
 
 	# print len(train_data)  # 1230
 	# print len(test_data)  # 822
@@ -317,15 +308,11 @@ def train_classifier(mbox,num_words,n):
 	train_bool_responses = [1 if x > 0 else 0 for x in train_times]
 	train_times = [x if x > 0 else float('Inf') for x in train_times]
 
-	print '5'
-
 	# get data matrices - TEST DATA
 	test_ngram_mat = make_ngram_given_dict(test_data, global_ngrams_words)
 	test_times = find_time(test_data)
 	test_bool_responses = [1 if x > 0 else 0 for x in test_times]
 	test_times = [x if x > 0 else float('Inf') for x in test_times]
-
-	print '6'
 
 	# transform to np arrays
 	train_bool_responses = np.array(train_bool_responses)
@@ -333,14 +320,10 @@ def train_classifier(mbox,num_words,n):
 	test_bool_responses = np.array(test_bool_responses)
 	test_times = np.array(test_times)
 
-	print '7'
-
 	### Not sure if Willy's function returns the correct thing for list of emails
 	### Going to use test_bools and train_bools instead of _responses for now
 	train_bool_responses = np.array(train_labels)
 	test_bool_responses = np.array(test_labels)
-
-	print '8'
 
 	classifiers = []
 
@@ -358,8 +341,6 @@ def train_classifier(mbox,num_words,n):
 		rf_train_scores.append(cross_val_score(rf,train_ngram_mat,train_bool_responses,cv=10))
 		rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
 
-	print '9'
-
 	# train, evaluate, and test SVM
 	svm_train_scores = []
 	svm_test_scores = []
@@ -368,14 +349,10 @@ def train_classifier(mbox,num_words,n):
 	svm_train_scores.append(cross_val_score(svm,train_ngram_mat,train_bool_responses,cv=10))
 	svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
 
-	print '10'
-
 	## Random Forest Stats
 	print rf_train_scores
 	for x in rf_train_scores:
 		print sum(x) / float(len(x))
-
-	print '11'
 
 	# print rf_test_scores
 
@@ -384,12 +361,8 @@ def train_classifier(mbox,num_words,n):
 	for x in svm_train_scores:
 		print sum(x) / float(len(x))
 
-	print '12'
-
 	# print svm_test_scores
 	print rf.predict(test_ngram_mat)
-
-	print '13'
 	
 	# add classifiers to list
 
@@ -397,8 +370,6 @@ def train_classifier(mbox,num_words,n):
 
 	classifiers.append(rf)
 	classifiers.append(svm)
-
-	print '14'
 
 	return classifiers, global_ngrams_words
 
