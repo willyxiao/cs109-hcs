@@ -331,10 +331,11 @@ def train_classifier(mbox,num_words):
 	# 	print sum(x) / float(len(x))
 
 	# print svm_test_scores
+	print rf.predict(test_bow_mat)
 	
 	# add classifiers to list
 
-	print rf.get_params()
+	# print rf.get_params()
 
 	classifiers.append(rf)
 	classifiers.append(svm)
