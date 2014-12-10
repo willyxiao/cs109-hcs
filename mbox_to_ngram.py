@@ -363,6 +363,7 @@ def train_classifier(mbox,num_words,n):
 
 	# print svm_test_scores
 	print rf.predict(test_ngram_mat)
+	print svm.predict(test_ngram_mat)
 	
 	# add classifiers to list
 
