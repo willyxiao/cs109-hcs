@@ -70,6 +70,7 @@ def make_ngram(mbox,num_words,n):
 		ngram_list.append(msg_ngram_dict)
 
 	# print len(ngram_list)  # 2033
+	print ngram_list
 
 	ngram_mat_list = []
 	for entry in ngram_list:
@@ -260,7 +261,7 @@ def find_time(mbox):
 	return emails
 
 
-def train_classifier(mbox,num_words):
+def train_classifier(mbox,num_words,n):
 
 	# split data
 	split_pct = 0.6  # test-train split percent
@@ -297,7 +298,7 @@ def train_classifier(mbox,num_words):
 	# print len(test_data)  # 822
 
 	# get data matrices - TRAIN DATA
-	train_ngram_mat, global_ngrams_words = make_ngram(train_data, num_words, 2)
+	train_ngram_mat, global_ngrams_words = make_ngram(train_data, num_words, n)
 	train_times = find_time(train_data)
 	train_bool_responses = [1 if x > 0 else 0 for x in train_times]
 	train_times = [x if x > 0 else float('Inf') for x in train_times]
@@ -323,7 +324,8 @@ def train_classifier(mbox,num_words):
 
 	print train_ngram_mat
 	print len(train_ngram_mat)
-	print np.amax(train_ngram_mat)
+	# print np.amax(train_ngram_mat)
+	print global_ngrams_words
 
 	return
 
