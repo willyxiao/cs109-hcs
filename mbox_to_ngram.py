@@ -36,7 +36,7 @@ def make_ngram(mbox,num_words,n):
 			n_grams = process_ngrams(split_body,n)
 			global_ngrams = global_ngrams + n_grams
 		except:
-			#logging.error('Could not get body of email' + str(msg['Subject']))
+			logging.error('Could not get body of email' + str(msg['Subject']))
 			continue
 
 	global_ngrams = collections.Counter(global_ngrams)
