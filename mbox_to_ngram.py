@@ -337,14 +337,14 @@ def train_classifier(mbox,num_words,n):
 	rf_test_scores = []
 	for n in xrange(1,20):  # initial results show this is the best? PLOT!
 		rf = RandomForestClassifier(n_estimators=n)
-		rf.fit(train_ngram_mat,train_bool_responses)
+		rf.fit(train_ngram_mat,train_bool_responses,sample_weight=[2 1])
 		rf_train_scores.append(cross_val_score(rf,train_ngram_mat,train_bool_responses,cv=10))
 		rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
 
 	# train, evaluate, and test SVM
 	svm_train_scores = []
 	svm_test_scores = []
-	svm = SVC(C=1.0, gamma=1.0, probability=True)
+	svm = SVC(C=1.0, kernel='linear', gamma=1.0, probability=True)
 	svm.fit(train_ngram_mat,train_bool_responses)
 	svm_train_scores.append(cross_val_score(svm,train_ngram_mat,train_bool_responses,cv=10))
 	svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
