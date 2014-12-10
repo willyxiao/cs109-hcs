@@ -297,7 +297,7 @@ def train_classifier(mbox,num_words):
 	# print len(test_data)  # 822
 
 	# get data matrices - TRAIN DATA
-	train_ngram_mat, global_ngrams_words = make_ngram(train_data, num_words)
+	train_ngram_mat, global_ngrams_words = make_ngram(train_data, num_words, 2)
 	train_times = find_time(train_data)
 	train_bool_responses = [1 if x > 0 else 0 for x in train_times]
 	train_times = [x if x > 0 else float('Inf') for x in train_times]
