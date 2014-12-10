@@ -323,6 +323,7 @@ def train_classifier(mbox,num_words,n):
 	### Not sure if Willy's function returns the correct thing for list of emails
 	### Going to use test_bools and train_bools instead of _responses for now
 	train_bool_responses = np.array(train_labels)
+	train_weights = train_bool_responses + 1  # should be 2's and 1's
 	test_bool_responses = np.array(test_labels)
 
 	classifiers = []
@@ -337,7 +338,7 @@ def train_classifier(mbox,num_words,n):
 	rf_test_scores = []
 	for n in xrange(1,20):  # initial results show this is the best? PLOT!
 		rf = RandomForestClassifier(n_estimators=n)
-		rf.fit(train_ngram_mat,train_bool_responses,sample_weight=[2,1])
+		rf.fit(train_ngram_mat,train_bool_responses,sample_weight=train_weights)
 		rf_train_scores.append(cross_val_score(rf,train_ngram_mat,train_bool_responses,cv=10))
 		rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
 
