@@ -14,6 +14,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import cross_val_score
 from sklearn.svm import SVC
+import sklearn.grid_search
 
 
 def make_ngram(mbox,num_words,n):
