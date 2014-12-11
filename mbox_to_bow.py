@@ -307,7 +307,7 @@ def train_classifier(mbox,num_words):
     rf_test_scores.append(rf.score(test_bow_mat,test_bool_responses))
 
     # train, evaluate, and test SVM
-    c = [1,10,100,1000]
+    c = [1,10] #,100,1000]
     parameters = {'C': c}
     svm_test_scores = []
     svm = SVC(kernel='linear', probability=True)
