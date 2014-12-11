@@ -244,7 +244,7 @@ def find_time(mbox):
     return emails
 
 
-def train_classifier(mbox,num_words):
+def train_bow_classifier(mbox,num_words):
 
     # split data
     split_pct = 0.6  # test-train split percent
@@ -302,18 +302,26 @@ def train_classifier(mbox,num_words):
     k = np.arange(20)+1
     parameters = {'n_estimators': k}
     rf = RandomForestClassifier()
+    print 'starting grid search'
     rf = sklearn.grid_search.GridSearchCV(rf, parameters, cv=10)
     rf.fit(train_bow_mat,train_bool_responses)
     rf_test_scores.append(rf.score(test_bow_mat,test_bool_responses))
+    print 'rf trained'
 
     # train, evaluate, and test SVM
     c = [1,10] #,100,1000]
     parameters = {'C': c}
     svm_test_scores = []
     svm = SVC(kernel='linear', probability=True)
+    print 'starting gird search'
     svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
     svm.fit(train_bow_mat,train_bool_responses)
     svm_test_scores.append(svm.score(test_bow_mat,test_bool_responses))
+    print 'svm trained'
+
+    # print test scores
+    print rf_test_scores
+    print svm_test_scores
 
     classifiers.append(rf)
     classifiers.append(svm)
@@ -321,7 +329,7 @@ def train_classifier(mbox,num_words):
     return classifiers, global_bow_words
 
 
-def evaluate_classifiers(classifiers,global_bow_words,input_message):
+def evaluate_bow_classifiers(classifiers,global_bow_words,input_message):
     
     # transform input message to matrix
     input_bow_mat = make_bow_given_dict_string(input_message, global_bow_words)
@@ -334,8 +342,8 @@ def run_all(mbox,num_words):
 
     input_message = "hey all i hope you're doing well. please respond to this message at your earliest convenience. scas scas scas scas respond respond respond willy anna long message here please respond respond asap asap asap asap asap why aren't you responding responses give me more data to crunch this classifier really doesn't seem to like short messages don't know what's going on please respond respond respond respond scas scas money budget budget budget hungry harvard me you you you you email office have at with a in you and of to the the to and of you a in in for scas is this be on if with will are do by director director by do more know harvard our our our important urgent board summer committee questions clients great court them room mailing information dont pbh free pbh hi when small time one hey come would hours people questions service its its its comp comp comp when legal interest guys school join join mail boston message"
 
-    classifiers, global_bow_words = train_classifier(mbox,num_words)
-    evaluate_classifiers(classifiers,global_bow_words,input_message)
+    classifiers, global_bow_words = train_bow_classifier(mbox,num_words)
+    evaluate_bow_classifiers(classifiers,global_bow_words,input_message)
 
 
 
