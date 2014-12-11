@@ -313,14 +313,14 @@ def train_classifier(mbox,num_words,n):
     parameters = {'n_estimators': k}
     rf = RandomForestClassifier()
     rf = sklearn.grid_search.GridSearchCV(rf, parameters, cv=10)
-    rf.fit(train_ngram_mat,train_bool_responses,sample_weight=train_weights)
+    rf.fit(train_ngram_mat,train_bool_responses)#,sample_weight=train_weights)
     rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
 
     # train, evaluate, and test SVM
     c = [1,10,100,1000]
     parameters = {'C': c}
     svm_test_scores = []
-    svm = SVC(kernel='linear', probability=True)
+    svm = SVC(kernel='linear', probability=True, class_weight='auto')
     svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
     svm.fit(train_ngram_mat,train_bool_responses)
     svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
