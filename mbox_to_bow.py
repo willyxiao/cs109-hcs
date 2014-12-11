@@ -276,9 +276,12 @@ def train_bow_classifier(mbox,num_words):
     test_labels = test_pos_labels + test_neg_labels
 
     # get most common words in pos / neg
-    pos_bow_mat, global_bow_words_pos = make_bow(train_pos+test_pos, num_words)
+    pos_data = train_pos + test_pos
+    neg_data = train_neg + test_neg
+    pos_bow_mat, global_bow_words_pos = make_bow(pos_data, num_words)
     print global_bow_words_pos
-    neg_bow_mat, global_bow_words_neg = make_bow(train_neg+test_neg, num_words)
+    neg_bow_mat, global_bow_words_neg = make_bow(neg_data, num_words)
+    print global_bow_words_neg
 
     return
 
