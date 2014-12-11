@@ -301,7 +301,7 @@ def train_classifier(mbox,num_words):
     rf_test_scores = []
     k = np.arange(20)+1
     parameters = {'n_estimators': k}
-    rf = RandomForestCLassifier()
+    rf = RandomForestClassifier()
     rf = sklearn.grid_search.GridSearchCV(rf, parameters, cv=10)
     rf.fit(train_bow_mat,train_bool_responses)
     rf_test_scores.append(rf.score(test_bow_mat,test_bool_responses))
