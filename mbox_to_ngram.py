@@ -308,37 +308,23 @@ def train_classifier(mbox,num_words,n):
     classifiers = []
 
     # train, evaluate, and test random forest
-    rf_train_scores = []
     rf_test_scores = []
-    for n in xrange(1,20):  # initial results show this is the best? PLOT!
-        rf = RandomForestClassifier(n_estimators=n)
-        rf.fit(train_ngram_mat,train_bool_responses,sample_weight=train_weights)
-        rf_train_scores.append(cross_val_score(rf,train_ngram_mat,train_bool_responses,cv=10))
-        rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
+    k = np.arange(20)+1
+    parameters = {'n_estimators': k}
+    rf = RandomForestClassifier()
+    rf = sklearn.grid_search.GridSearchCV(rf, parameters, cv=10)
+    rf.fit(train_ngram_mat,train_bool_responses,sample_weight=train_weights)
+    rf_test_scores.append(rf.score(test_ngram_mat,test_bool_responses))
 
     # train, evaluate, and test SVM
-    svm_train_scores = []
+    c = [1,10,100,1000]
+    parameters = {'C': c}
     svm_test_scores = []
-    svm = SVC(C=1.0,kernel='linear',probability=True,class_weight='auto')
+    svm = SVC(kernel='linear', probability=True)
+    svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
     svm.fit(train_ngram_mat,train_bool_responses)
-    svm_train_scores.append(cross_val_score(svm,train_ngram_mat,train_bool_responses,cv=10))
     svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
 
-    ## Random Forest Stats
-    print rf_train_scores
-    for x in rf_train_scores:
-        print sum(x) / float(len(x))
-
-    print rf_test_scores
-
-    ## SVM Stats
-    print svm_train_scores
-    for x in svm_train_scores:
-        print sum(x) / float(len(x))
-
-    print svm_test_scores
-    print rf.predict(test_ngram_mat)
-    print svm.predict(test_ngram_mat)
 
     classifiers.append(rf)
     classifiers.append(svm)
