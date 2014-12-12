@@ -322,9 +322,10 @@ def train_bow_classifier(mbox,num_words):
     c = [1,10] #,100,1000]
     parameters = {'C': c}
     svm_test_scores = []
-    svm = SVC(kernel='linear', probability=True)
-    print 'starting gird search'
-    svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
+    # svm = SVC(kernel='linear', probability=False)
+    svm = SVC(C=1.0,kernel='linear', probability=False)
+    print 'starting grid search'
+    # svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
     svm.fit(train_bow_mat,train_bool_responses)
     svm_test_scores.append(svm.score(test_bow_mat,test_bool_responses))
     print 'svm trained'
