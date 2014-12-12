@@ -2,7 +2,7 @@
 
 // create graph of given list file in div with that id
 function create_graph(list) {
-  var width = 600,
+  var width = 400,
       height = 350;
 
   var svg = d3.select("#" + list + " .network-graph").append("svg")
