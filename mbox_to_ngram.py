@@ -321,7 +321,7 @@ def train_ngram_classifier(mbox,num_words,n):
     c = [1,10] #,100,1000]
     parameters = {'C': c}
     svm_test_scores = []
-    svm = SVC(kernel='linear', probability=True, class_weight='auto')
+    svm = SVC(kernel='linear', probability=False, class_weight='auto')
     svm = sklearn.grid_search.GridSearchCV(svm, parameters, cv=10)
     svm.fit(train_ngram_mat,train_bool_responses)
     svm_test_scores.append(svm.score(test_ngram_mat,test_bool_responses))
