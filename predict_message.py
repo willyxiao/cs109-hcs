@@ -1,3 +1,5 @@
+#!/bin/python
+
 import mbox_to_bow
 import mbox_to_ngram
 import pickle
