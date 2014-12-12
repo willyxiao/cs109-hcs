@@ -9,6 +9,7 @@
 		function getOutput(){
 			$.ajax({
 				url: 'predict.php',
+				data: {email: $("#email").val()},
 				complete: function (response){
 					$("#out").html(response.responseText);
 				},
