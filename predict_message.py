@@ -29,4 +29,4 @@ def predict_message(message):
 
 # MAIN
 if __name__ == '__main__':
-	predict_message(message)
+	predict_message(input_message)
