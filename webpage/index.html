@@ -13,15 +13,15 @@
 				drawError
 			);
 			return false;
-		}
+		};
 
 		function drawOutput(response){
 			$("#out").innerHTML = response;
-		}
+		};
 
 		function drawError(){
 			$("#out").innerHTML = "There seems to be an error, please try again!";
-		}
+		};
 
 		function getRequest(url, success, error){
 			var req = false;
@@ -42,7 +42,7 @@
 			req.open("GET", url, true);
 			req.send(null);
 			return req;
-		}
+		};
 		$(document).ready(function(){
 			$('a').click(function(){
 				var clicked = $(this).attr("href");
@@ -50,6 +50,7 @@
 				$("html, body").animate({scrollTop: dest-15}, 1000);
 	    	return false;
 			});
+		});
 
 
 	</script>
