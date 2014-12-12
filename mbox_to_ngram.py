@@ -352,12 +352,3 @@ def run_all(mbox,num_words,n):
 
     classifiers, global_ngrams_words = train_ngram_classifier(mbox,num_words,n)
     evaluate_ngram_classifiers(classifiers,global_ngrams_words,input_message,n)
-
-
-
-
-
-    
-
-
-
