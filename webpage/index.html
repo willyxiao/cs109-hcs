@@ -11,7 +11,7 @@
 				url: 'predict.php',
 				data: {email: $("#email").val()},
 				complete: function (response){
-					r = $.parseJSON(response);
+					r = $.parseJSON(response.responseText);
 					bow = r["bow"];
 					if (bow[1] == 0){
 						answer = "Unfortuantely you are not likely to get a response :("
