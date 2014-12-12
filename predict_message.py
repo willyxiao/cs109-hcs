@@ -2,6 +2,7 @@ import mbox_to_bow
 import mbox_to_ngram
 import pickle
 import sys
+import json
 
 # Load classifiers and dictionaries
 bow_classifiers = pickle.load(open('bow_classifiers.p','rb'))
@@ -18,13 +19,16 @@ def predict_message(message):
 	bow_message = mbox_to_bow.make_bow_given_dict_string(message,global_bow_words)
 	ngram_message = mbox_to_ngram.make_ngram_given_dict_string(message,global_ngram_words,1)
 
-	print 'bow'
-	for classifier in bow_classifiers:
-		print classifier.predict(bow_message)
+	predictions = {'bow':[],'ngram':[]}
 
-	print 'ngram'
+	for classifier in bow_classifiers:
+		predictions['bow'].append(classifier.predict(bow_message))
+
 	for classifier in ngram_classifiers:
-		print classifier.predict(ngram_message)
+		predictions['ngram'].append(classifier.predict(ngram_message))
+		# print classifier.predict(ngram_message)
+
+	print json.dumps(predictions)
 
 
 # MAIN
