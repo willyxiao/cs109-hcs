@@ -95,6 +95,8 @@
 			<img id="graph" src="assets/hours.png">
 			<p> We also looked at subject lines and found the top 10% of popular subject-lines account for 50% of the emails sent over the Harvard mailing lists.</p>
 			<img id="graph" src="assets/subjects.png">
+			<p> Here's a wordcloud of the subject lines! </p>
+			<img id="graph" src="assets/wordCloud.jpg">
 		</div>
 		<hr>
 		<div class="section" id="network">
@@ -102,6 +104,8 @@
 			<h1 id="name">Network Analysis</h1>
 			<p>We looked at the SCAS (Small Claims Advisory Service) club and the Premed-Exec lists for the years 2013 and 2014. Using d3, a Javascript library, we were able to visualize the networks created. Each person on the list is represented by a node, and the edges represent responses. An email where person A responds to person B corresponds to an edge from A to B. Each edge is also weighted based on the time between responses. </p>
 			<p>Subsequent emails between the same two people just add to the edge weight. We then sized the nodes by the total weight of all edges entering and leaving that node. In other words, the largest nodes are those for people who both respond a lot and also get responded to.</p>
+			<p> We created a graph data structure out of the email lists, where the graph was represented by an adjacency list. The top level was a dictionary with email addresses as keys. Each email address mapped to another dictionary again keyed by email address where the value was the weight for that edge. </p>
+			<p> Below we have the visualization of the output: The purple node is the node with the maximum total weight of all the nodes in the graph. For the premed-exec list, the largest node in 2013 is the president of the Premedical Society at the time, Vivian Leung, and the largest node in 2014 is Lily Zhang, the treasurer (the current president is also one of the largest nodes). For the scas-board list, Jessica Chao was the executive officer last year and Anita Lo is the executive officer this year. They are both the largest nodes for their respective years. You can also see how Willy took on a larger role in the group this year; his circle got correspondingly larger.</p>
 			<div class="graph-row">
 				<div id="scas-board-2013">
 					<div class="title">Scas-board List, 2013</div>
