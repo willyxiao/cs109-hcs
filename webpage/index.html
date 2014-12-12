@@ -18,7 +18,7 @@
 			});
 			return false;
 		}
-		
+
 		$(document).ready(function(){
 			$('a').click(function(){
 				var clicked = $(this).attr("href");
@@ -148,8 +148,10 @@
 			<!-- <img class="thumb" src="assets/email.png"> -->
 			<h1 id="name">Response Predictor</h1>
 			<h3> Type in an email below </h3>
-			<textarea id="email" rows="10" cols="150"></textarea>
-			<a href="#response" onclick = "return getOutput();"> submit </a>
+			<textarea id="email" rows="10"></textarea>
+			<div style="float:right; background-color: #29abbb; padding: 15px; margin-top: 15px;">
+				<a href="#response" onclick = "return getOutput();" style="text-decoration:none; color: #fff; padding: 20px;"> Submit </a>
+			</div>
 			<div id="out"></div>
 		</div>			
 	</div>
