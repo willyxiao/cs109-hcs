@@ -22,10 +22,10 @@ def predict_message(message):
 	predictions = {'bow':[],'ngram':[]}
 
 	for classifier in bow_classifiers:
-		predictions['bow'].append(classifier.predict(bow_message))
+		predictions['bow'].extend(classifier.predict(bow_message))
 
 	for classifier in ngram_classifiers:
-		predictions['ngram'].append(classifier.predict(ngram_message))
+		predictions['ngram'].extend(classifier.predict(ngram_message))
 		# print classifier.predict(ngram_message)
 
 	print json.dumps(predictions)
