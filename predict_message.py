@@ -14,7 +14,7 @@ input_message = "hey all i hope you're doing well. please respond to this messag
 # Function to predict
 def predict_message(message):
 	bow_message = mbox_to_bow.make_bow_given_dict_string(message,global_bow_words)
-	ngram_message = mbox_to_ngram.make_ngram_given_dict_string(message,global_ngrams_words,1)
+	ngram_message = mbox_to_ngram.make_ngram_given_dict_string(message,global_ngram_words,1)
 
 	print 'bow'
 	for classifier in bow_classifiers:
