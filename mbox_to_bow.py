@@ -355,12 +355,3 @@ def run_all(mbox,num_words):
 
     classifiers, global_bow_words = train_bow_classifier(mbox,num_words)
     evaluate_bow_classifiers(classifiers,global_bow_words,input_message)
-
-
-
-
-
-    
-
-
-
