@@ -13,11 +13,12 @@
 				complete: function (response){
 					r = $.parseJSON(response.responseText);
 					bow = r["bow"];
+					answer = '';
 					if (bow[1] == 0){
-						answer = "Unfortuantely you are not likely to get a response :("
+						answer = "Unfortunately you are not likely to get a response."
 					}
 					else{
-						answer = "Nice - you'll likely be getting a response"
+						answer = "Nice - you'll likely be getting a response!"
 					}
 					$("#out").html(answer);
 				},
