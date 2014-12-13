@@ -99,7 +99,8 @@
 		<div class="section" id="data">
 			<!-- <img class="thumb" src="assets/email.png"> -->
 			<h1 id="name">Data Analysis</h1>
-			<p> With the data set up, we could do tons of interesting exploratory analyses on our our data fairly quickly. This is what we found: </p>
+			<p> With the data set up, we could do tons of interesting exploratory analyses on our our data fairly quickly. We found that the number of active email lists had increased steadily until 2010, then decreased steadily to-date. Similarly, the number of emails sent had increased steadily until 2009 with a little over 700,000 emails, before declining such that 2013 had a little under 500,000 emails sent over HCS servers. </p>
+			<p> In addition, we found that students tend not to send emails over the summer months (pretty intuitive) and also send the most number of emails in the month of April (almost 800,000 when summed over all the active years), likely an indicator for the influx of emails regarding end of year plans. We're also able to see the trend across an average day - even seeing a drop in emails corresponding to dinner time </p>
 			<img id="graph" src="assets/lists.png">
 			<img id="graph" src="assets/year.png">
 			<img id="graph" src="assets/month.png">
@@ -107,17 +108,19 @@
 			<img id="graph" src="assets/hours.png">
 			<p> We also looked at subject lines and found the top 10% of popular subject-lines account for 50% of the emails sent over the Harvard mailing lists.</p>
 			<img id="graph" src="assets/subjects.png">
-			<p> Here's a wordcloud of the subject lines! </p>
+			<p> Here's a wordcloud of the subject lines! We can see that a few that dominate are "Meeting Tomorrow," "Tonight, and "No Subject." We found the last one pretty interesting considering Harvard students are normally quite verbose ;)</p>
 			<img id="graph" src="assets/wordCloud.jpg">
 		</div>
 		<hr>
 		<div class="section" id="network">
 			<!-- <img class="thumb" src="assets/email.png"> -->
 			<h1 id="name">Network Analysis</h1>
-			<p>We looked at the SCAS (Small Claims Advisory Service) club and the Premed-Exec lists for the years 2013 and 2014. Using d3, a Javascript library, we were able to visualize the networks created. Each person on the list is represented by a node, and the edges represent responses. An email where person A responds to person B corresponds to an edge from A to B. Each edge is also weighted based on the time between responses. </p>
+			<p> To analyze the network effects on an email list, we picked two with clear hierarchies and high activity of responses, i.e. more interaction, less event pubbing. </p>
+			<p>We chose the SCAS (Small Claims Advisory Service) club and the Premed-Exec lists for the years 2013 and 2014. Using d3, a Javascript library, we were able to visualize the networks created. Each person on the list is represented by a node, and the edges represent responses. An email where person A responds to person B corresponds to an edge from A to B. Each edge is also weighted based on the time between responses. </p>
 			<p>Subsequent emails between the same two people just add to the edge weight. We then sized the nodes by the total weight of all edges entering and leaving that node. In other words, the largest nodes are those for people who both respond a lot and also get responded to.</p>
 			<p> We created a graph data structure out of the email lists, where the graph was represented by an adjacency list. The top level was a dictionary with email addresses as keys. Each email address mapped to another dictionary again keyed by email address where the value was the weight for that edge. </p>
 			<p> Below we have the visualization of the output: The purple node is the node with the maximum total weight of all the nodes in the graph. For the premed-exec list, the largest node in 2013 is the president of the Premedical Society at the time, Vivian Leung, and the largest node in 2014 is Lily Zhang, the treasurer (the current president is also one of the largest nodes). For the scas-board list, Jessica Chao was the executive officer last year and Anita Lo is the executive officer this year. They are both the largest nodes for their respective years. You can also see how Willy took on a larger role in the group this year; his circle got correspondingly larger.</p>
+			<p> Play around with the graphs! They're meant for interaction : ) </p>
 			<div class="graph-row">
 				<div id="scas-board-2013">
 					<div class="title">Scas-board List, 2013</div>
@@ -145,7 +148,14 @@
 			<h1 id="name">Predicting Responses</h1>
 			<p>We also implemented a prediction portion of this project that, given the text of an email, predicts whether or not that email will elicit a response from the email list in question. In order to implement this, we go through every email in a mailing list's mbox file and extract the text of each email with a binary indicator variable corresponding to whether or not anyone responded to the email in question. From this, we proceed to extract features from the text either as a bag-of-words or n-gram format (with n=2 to reduce excessive computation in this code). </p>
 			<p> Once we have these features extracted, we split the data from the list into a training set and a test set in a 60-40 fashion. We also create label vectors corresponding to the true label of each of the emails in these two sets of data. With these features and label vectors, we then train two different classifiers: a random forest and a linear SVM model. With each of these, we run grid_search with ten-fold cross-validation over a reasonable set of parameters in order to optimize the classifier for the current mailing list data. </p>
+			<p> TLDR; (too long didn't read) We needed to answer the following questions: 
+				<ul>
+					<li> Determine the features of an email that distinguish it, is it some collection of words or of phrases? If so, which ones?</li>
+					<li> Once we've chosen a feature set, which classifier will perform the best, a random forest or a linear SVM model? </li>
+					<li> Upon training and choosing a classifier, how will does it do? </li>
+				</ul>
 			<h3> Test Accuracy </h3>
+			<p> After implementing, we found that the bag of words model with a random forest classifier worked the best. 
 			<ol>
 				<li> Bag of Words </li>
 				<ul style="margin-top: 0; padding-top: 0;">
