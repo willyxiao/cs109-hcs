@@ -149,11 +149,11 @@
 			<p>We also implemented a prediction portion of this project that, given the text of an email, predicts whether or not that email will elicit a response from the email list in question. In order to implement this, we go through every email in a mailing list's mbox file and extract the text of each email with a binary indicator variable corresponding to whether or not anyone responded to the email in question. From this, we proceed to extract features from the text either as a bag-of-words or n-gram format (with n=2 to reduce excessive computation in this code). </p>
 			<p> Once we have these features extracted, we split the data from the list into a training set and a test set in a 60-40 fashion. We also create label vectors corresponding to the true label of each of the emails in these two sets of data. With these features and label vectors, we then train two different classifiers: a random forest and a linear SVM model. With each of these, we run grid_search with ten-fold cross-validation over a reasonable set of parameters in order to optimize the classifier for the current mailing list data. </p>
 			<p> TLDR; (too long didn't read) We needed to answer the following questions: 
-				<ul>
+				<ol>
 					<li> Determine the features of an email that distinguish it, is it some collection of words or of phrases? If so, which ones?</li>
 					<li> Once we've chosen a feature set, which classifier will perform the best, a random forest or a linear SVM model? </li>
 					<li> Upon training and choosing a classifier, how will does it do? </li>
-				</ul>
+				</ol>
 			<h3> Test Accuracy </h3>
 			<p> After implementing, we found that the bag of words model with a random forest classifier worked the best. 
 			<ol>
